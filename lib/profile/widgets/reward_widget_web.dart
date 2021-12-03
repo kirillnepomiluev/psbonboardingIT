@@ -1,10 +1,10 @@
 
-import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app_digital_finals/auth/model/reward.dart';
 import 'package:flutter_app_digital_finals/home/widgets/all_widgets.dart';
 import 'package:flutter_app_digital_finals/home/widgets_web/web_navigation_menu.dart';
 import 'package:flutter_app_digital_finals/home/web_home_page.dart' as home;
+import 'package:flutter_app_digital_finals/themes/colors.dart';
 import '../../main.dart';
 import '../../my_scaffold.dart';
 
@@ -37,16 +37,7 @@ class RewardWidgetState extends State<RewardWidget> {
   Widget build(BuildContext context) {
     return MyScaffold(
       bodyRight: _rightBody(),
-      bodyCenter: Column(
-        children: [
-          Row(
-            children: [
-              Text("Вы заработали ${mark} баллов на покупки")
-            ],
-          ),
-          Column(children: _rewards,)
-        ],
-      ),
+      bodyCenter: Column(children: _rewards,),
       bodyLeft: _leftBody(),
     );
   }
@@ -85,13 +76,13 @@ class RewardWidgetState extends State<RewardWidget> {
               children: [
                 Container(
                   height: MediaQuery.of(context).size.height * 0.2,
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  child: Image.asset("assets/imageWelcome.png"),
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  child: Image.asset('assets/imageHeaderCourse.png',fit: BoxFit.fill,),
                 ),
                 Column(
                   children: [
-                    Text(element.reward),
-                    Text(element.mark.toString() + " баллов"),
+                    Text(element.reward, style: const TextStyle(color: blackTextPSB,fontSize: 22,fontFamily: 'Gilroy',fontWeight: FontWeight.w400),),
+                    Text(element.mark.toString() + " баллов", style: const TextStyle(color: blackTextPSB,fontSize: 17,fontFamily: 'Gilroy',fontWeight: FontWeight.w400),),
                   ],
                 )
               ],
