@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "295123389589",
+    "project_id": "psb-onboarding",
+    "storage_bucket": "psb-onboarding.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295123389589:android:aae3293557f3de41f65f9c",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app_digital_finals"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "295123389589-ru46n6s26o4c1htoh95rhrmibp8p3d9q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADwU4DWd5OgbJZ7YKkYUP1bnO4jcTjaCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "295123389589-ru46n6s26o4c1htoh95rhrmibp8p3d9q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
