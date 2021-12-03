@@ -56,13 +56,11 @@ class _PrizeWidgetState extends State<PrizeWidget> {
                   child: MouseRegion(
                       onHover: (value) {
                         setState(() {
-                          debugPrint("HOV");
                           prizes[item]['hovered'] = true;
                         });
                       },
                       onExit: (value) {
                         setState(() {
-                          debugPrint("NOHOV");
                           prizes[item]['hovered'] = false;
                         });
                       },
