@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_digital_finals/auth/model/psb_employee.dart';
 import 'package:flutter_app_digital_finals/home/widgets_web/web_navigation_menu.dart';
+import 'package:flutter_app_digital_finals/profile/profile_page.dart';
+import 'package:flutter_app_digital_finals/profile/widgets/prize_profile_box.dart';
 import 'package:flutter_app_digital_finals/tasksManager/task_manage.dart';
 import 'package:flutter_app_digital_finals/themes/colors.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -17,6 +19,7 @@ class WebEmployeesOnePage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
+      centerAppBar: false,
       bodyRight: _rightBody(),
       bodyCenter: _centerBody(context),
       bodyLeft: _leftBody(),
@@ -35,10 +38,64 @@ class WebEmployeesOnePage extends StatelessWidget{
   }
 
   Widget _centerBody(BuildContext context) {
-    return Column(
-      children: [
-        _appbar(context)
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _appbar(context),
+          _allInfoEmployee(),
+          _prizes()
+        ],
+      ),
+    );
+  }
+
+  //список призов
+  Widget _prizes(){
+    return Container(
+      padding: const EdgeInsets.only(top: 15),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      child: ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: prizes.length,
+          shrinkWrap: true,
+          itemBuilder: (ctx, item){
+            return Column(
+              children: [
+                PrizeCard(
+                  imagePrize: prizes[item]['imagePrize'],
+                  namePrize: prizes[item]['namePrize'],
+                  textBodyPrize: prizes[item]['textBodyPrize'],
+                ),
+                Container(height: 15,)
+              ],
+            );
+          }),
+    );
+  }
+
+  Widget _allInfoEmployee(){
+    return Container(
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: const Color(0xFFF9F9F9)),
+        child: Column(
+          children: [
+            _cardInfoEmployee(),
+            _cardInfoEmployee(name: 'Рабочий телефон',value: '8 (363) 22 22 22'),
+            _cardInfoEmployee(name: 'E-mail',value: 'O_L')
+          ],
+        )
+    );
+  }
+
+  Widget _cardInfoEmployee({String name = 'Мобильный номер',String value = '8 (961) 295 22 72'}){
+    return Container(
+      padding: const EdgeInsets.all(24),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(name,style: const TextStyle(fontWeight: FontWeight.w700,color: blackTextPSB,fontSize: 16,fontFamily: 'Gilroy'),),
+          Text(value,style: const TextStyle(fontWeight: FontWeight.w700,color: blackTextPSB,fontSize: 16,fontFamily: 'Gilroy'),),
+        ],
+      ),
     );
   }
 
@@ -48,7 +105,7 @@ class WebEmployeesOnePage extends StatelessWidget{
       children: [
         IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.arrow_back_ios_rounded,color: blackTextPSB,size: 23,)),
         const Spacer(),
-        SizedBox(width: 100,height: 100,child: Image.asset('assets/imageMyContactPhoto.png',fit: BoxFit.fill,)),
+        SizedBox(width: 130,height: 130,child: Image.asset('assets/imageMyContactPhoto.png',fit: BoxFit.fill,)),
         const Spacer(),
         IconButton(onPressed: (){}, icon: const Icon(Icons.settings,color: lightBlackTextPSB,size: 23,))
       ],

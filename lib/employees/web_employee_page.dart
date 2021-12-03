@@ -1,11 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_digital_finals/auth/model/psb_employee.dart';
 import 'package:flutter_app_digital_finals/employees/web_employee_one_page.dart';
 import 'package:flutter_app_digital_finals/home/widgets/all_widgets.dart';
+import 'package:flutter_app_digital_finals/home/widgets/box_task.dart';
 import 'package:flutter_app_digital_finals/home/widgets_web/web_header_green_orange_box.dart';
 import 'package:flutter_app_digital_finals/home/widgets_web/web_navigation_menu.dart';
 import 'package:flutter_app_digital_finals/themes/colors.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:provider/provider.dart';
 
 import '../main.dart';
 import '../my_scaffold.dart';
@@ -31,6 +35,7 @@ class WebEmployeesPageState extends State<WebEmployeesPage>{
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
+      centerAppBar: false,
       bodyRight: _rightBody(),
       bodyCenter: _centerBody(context),
       bodyLeft: _leftBody(),
@@ -49,10 +54,11 @@ class WebEmployeesPageState extends State<WebEmployeesPage>{
   }
 
   Widget _centerBody(BuildContext context) {
+
     return Column(
       children: [
         //контенер красным и оранжевым контейнером
-        GreenOrangeHeaderWeb(),
+        GreenOrangeHeaderWeb(employeeCount: _emps.length,),
         Container(height: 8,),
         ListView.builder(
           shrinkWrap: true,
@@ -72,7 +78,70 @@ class WebEmployeesPageState extends State<WebEmployeesPage>{
   }
 
   Widget _rightBody() {
-    return Container();
+    return tasksList();
+  }
+
+  Widget tasksList() {
+    if (FirebaseAuth.instance.currentUser == null) {
+      return Container();
+    } else {
+
+      return Container(
+        margin: const EdgeInsets.only(bottom: 15),
+        child: Column(
+          children: [
+            appTitle(title: 'Задачи на сегодня'),
+            StreamBuilder(
+              stream: store
+                  .collectionGroup("tasks")
+                  .where("creator", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                  .snapshots(),
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+
+                if(snapshot.hasError) {
+                  print(snapshot.error);
+                }
+                if (snapshot.hasData) {
+                  QuerySnapshot snapData = snapshot.data;
+                  return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapData.docs.length,
+                    itemBuilder: (context, item) {
+                      Map<String, dynamic> data =
+                      snapData.docs[item].data() as Map<String, dynamic>;
+
+                      int maxItem = snapData.docs.length;
+
+                      final bool lastItem = item == maxItem - 1;
+                      final bool firstItem = item == 0;
+                      bool nextCompleted = false;
+                      if (!lastItem) {
+                        nextCompleted = (snapData.docs[item + 1].data()
+                        as Map<String, dynamic>)["completed"];
+                      }
+
+                      return BoxTask(
+                        firstItem: firstItem,
+                        time: (data['time'] as Timestamp).toDate(),
+                        online: data["online"],
+                        completed: data["completed"],
+                        textTask: data["textTask"].toString(),
+                        listItem: lastItem,
+                        docSt: snapData.docs[item],
+                        nextCompleted: nextCompleted,
+                      );
+                    },
+                  );
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
+            ),
+          ],
+        ),
+      );
+    }
   }
 
 
@@ -134,6 +203,7 @@ class BoxEmployee extends StatelessWidget{
       hoverColor: Colors.white,
       child: Container(
         padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(border: Border.all(color: const Color(0xFFEFF2F5),width: 2),borderRadius: BorderRadius.circular(8)),
         child: Column(
           children: [
@@ -156,7 +226,7 @@ class BoxEmployee extends StatelessWidget{
                   Container(width: 10),
                   Column(
                     children: [
-                      _tegTaskOrange(2),
+                      // _tegTaskOrange(psbEmployee),
                       Container(height: 10,),
                       _tegTaskGreen(),
                     ],

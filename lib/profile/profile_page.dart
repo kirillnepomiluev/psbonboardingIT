@@ -12,21 +12,6 @@ List<Map<String, dynamic>> prizes = [
     'namePrize': 'Старательный ученик',
     'textBodyPrize': 'Завершил половину курса',
   },
-  {
-    'imagePrize': 'assets/prizeOne.png',
-    'namePrize': 'Старательный ученик',
-    'textBodyPrize': 'Завершил половину курса',
-  },
-  {
-    'imagePrize': 'assets/prizeOne.png',
-    'namePrize': 'Старательный ученик',
-    'textBodyPrize': 'Завершил половину курса',
-  },
-  {
-    'imagePrize': 'assets/prizeOne.png',
-    'namePrize': 'Старательный ученик',
-    'textBodyPrize': 'Завершил половину курса',
-  },
 ];
 
 //экран профиля

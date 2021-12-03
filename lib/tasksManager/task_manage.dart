@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_app_digital_finals/home/widgets/box_task.dart';
 import 'package:flutter_app_digital_finals/main.dart';
 import 'package:flutter_app_digital_finals/themes/colors.dart';
 import 'package:flutter_app_digital_finals/widgets/buttons.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 class TaskManageWidget extends StatefulWidget {
@@ -25,83 +27,148 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
 
   bool taskOnline = false;
 
+  int _radioValue1 = 0;
+
+
   @override
   Widget build(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null) {
       return Container();
     } else {
-      return Column(
-        children: [
-          tasksList(widget.employeeID),
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: const Color(0xFFF9F9F9),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Новая задача",style: TextStyle(color: blackTextPSB,fontWeight: FontWeight.w400,fontSize: 20,fontFamily: 'Gilroy'),),
-                Container(height: 8,),
-                _textField(
-                  labelText: "Заголовок",
-                  controller: controllerHeader,
-                ),
-                Container(height: 8,),
-                _textField(
-                  labelText: "Описание",
-                  controller: controllerTaskName,
-                ),
-                Container(height: 8,),
-                CustomDateSelector(
-                  context,
-                  const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                  "Birth Date",
-                  _birthDate,
-                  _onBirthDateChanged,
-                  const BoxDecoration(
-                    color: Color(0xFFF9F9F9)
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            tasksList(widget.employeeID),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: const Color(0xFFF9F9F9),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Новая задача",style: TextStyle(color: blackTextPSB,fontWeight: FontWeight.w400,fontSize: 20,fontFamily: 'Gilroy'),),
+                  Container(height: 8,),
+                  _textField(
+                    labelText: "Описание",
+                    controller: controllerTaskName,
                   ),
-                ),
-                Container(height: 10,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text("Задача online",style: TextStyle(fontFamily: 'Gilroy',fontSize: 16,color: blackTextPSB,fontWeight: FontWeight.w400),),
-                    CupertinoSwitch(
-                      activeColor: blueTextPSB,
-                      onChanged: (value) {
-                        setState(() {
-                          taskOnline = value;
+                  Container(height: 8,),
+                  CustomDateSelector(
+                    context,
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                    "Выберите время делайна",
+                    _birthDate,
+                    _onBirthDateChanged,
+                    const BoxDecoration(
+                      color: Color(0xFFF9F9F9)
+                    ),
+                  ),
+                  Container(height: 10,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Задача online",style: TextStyle(fontFamily: 'Gilroy',fontSize: 16,color: blackTextPSB,fontWeight: FontWeight.w400),),
+                      CupertinoSwitch(
+                        activeColor: blueTextPSB,
+                        onChanged: (value) {
+                          setState(() {
+                            taskOnline = value;
+                          });
+                        },
+                        value: taskOnline,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      const Text("Кто закрывает задачу",style: TextStyle(fontFamily: 'Gilroy',fontSize: 16,color: blackTextPSB,fontWeight: FontWeight.w400),),
+                      Row(
+                        children: [
+                          Radio(
+                            activeColor: orangePSB,
+                            value: 0,
+                            groupValue: _radioValue1,
+                            onChanged: _handleRadioValueChange1,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _handleRadioValueChange1(0);
+                              },
+                            child: const Text(
+                              'Сотрудник',
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ),
+                          Radio(
+                            activeColor: orangePSB,
+                            value: 1,
+                            groupValue: _radioValue1,
+                            onChanged: _handleRadioValueChange1,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _handleRadioValueChange1(1);
+                            },
+                            child: const Text(
+                              'Настваник',
+                              style:  TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            ),
+                          ),
+                          Radio(
+                             activeColor: orangePSB,
+                            value: 2,
+                            groupValue: _radioValue1,
+                            onChanged: _handleRadioValueChange1,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _handleRadioValueChange1(2);
+                            },
+                            child: const Text(
+                              'Тест',
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Container(height: 10,),
+                  bigButton(
+                      onPressed: () {
+                        store
+                            .collection("users")
+                            .doc(widget.employeeID)
+                            .collection("tasks")
+                            .add({
+                          'online': taskOnline,
+                          "textTask": controllerTaskName.text,
+                          "completed": false,
+                          "time": _birthDate,
+                          "closeType" :  _radioValue1==0? "employee" : _radioValue1==1? "lead" : "test",
+                          "creator" : FirebaseAuth.instance.currentUser!.uid
                         });
                       },
-                      value: taskOnline,
-                    ),
-                  ],
-                ),
-                Container(height: 10,),
-                bigButton(
-                    onPressed: () {
-                      store
-                          .collection("users")
-                          .doc(widget.employeeID)
-                          .collection("tasks")
-                          .add({
-                        'online': taskOnline,
-                        "textTask": controllerTaskName.text,
-                        "headerTextTask": controllerHeader.text,
-                        "completed": false,
-                        "time": _birthDate
-                      });
-                    },
-                    text: "Добавить")
-              ],
-            ),
-          )
-        ],
+                      text: "Добавить")
+                ],
+              ),
+            )
+          ],
+        ),
       );
     }
+  }
+
+  void _handleRadioValueChange1(int? value) {
+    setState(() {
+      _radioValue1 = value?? -1;
+    });
+
+
   }
 
   Widget _textField({TextEditingController? controller,String labelText = 'Описание'}){
@@ -146,6 +213,7 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
     if (FirebaseAuth.instance.currentUser == null) {
       return Container();
     } else {
+
       return Container(
         margin: const EdgeInsets.only(bottom: 15),
         child: Column(
@@ -217,14 +285,6 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
           final firstDate = DateTime(DateTime.now().year - 100);
           final lastDate = DateTime(DateTime.now().year - 18, DateTime.now().month, DateTime.now().day);
 
-          showDatePicker(
-            context: context,
-            initialDate: dateTime,
-            firstDate: firstDate.isBefore(dateTime) ? firstDate : dateTime,
-            lastDate: lastDate.isAfter(dateTime) ? lastDate : dateTime,
-            errorFormatText: '',
-            errorInvalidText: '',
-          ).then((value) => {if (value != null) callback(value)});
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,20 +303,30 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: Text(
-                      dateFullFromMilliseconds(dateTime.millisecondsSinceEpoch),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 14,
-                          fontFamily: 'Roboto',
-                          color: blackTextPSB),
+                    child: DateTimePicker(
+                      type: DateTimePickerType.dateTimeSeparate,
+                      dateMask: 'd MMM, yyyy',
+                      initialValue: DateTime.now().toString(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2100),
+                      icon: Icon(Icons.event),
+                      dateLabelText: 'Date',
+                      timeLabelText: "Hour",
+                      selectableDayPredicate: (date) {
+                        // Disable weekend days to select from the calendar
+                        if (date.weekday == 6 || date.weekday == 7) {
+                          return false;
+                        }
+
+                        return true;
+                      },
+                      onChanged: (val) => print(val),
+                      validator: (val) {
+                        print(val);
+                        return null;
+                      },
+                      onSaved: (val) => print(val),
                     ),
-                  ),
-                  const Icon(
-                    Icons.keyboard_arrow_down_rounded,
-                    color: blueTextPSB,
-                    size: 24,
                   ),
                 ],
               ),
