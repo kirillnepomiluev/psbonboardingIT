@@ -17,6 +17,7 @@ class MyScaffold extends StatelessWidget {
   final Widget? floatingActionButton; // Nullable.
   //нижняя навигационная панель
   final AppBottomNavigationItem? bottomNavigationActiveItem;// Nullable
+  final AppBottomNavigationItemLead? appBottomNavigationItemLead;// Nullable
 
 
   // для веба
@@ -27,15 +28,18 @@ class MyScaffold extends StatelessWidget {
   //виджет отображающий правую часть страници (страница поделена на три части)
   final Widget? bodyRight; // Nullable.
   final bool? centerAppBar; // Nullable.
+  final bool? isLead; // Nullable.
 
   MyScaffold({
     this.body,
     this.floatingActionButton,
     this.bottomNavigationActiveItem,
+    this.appBottomNavigationItemLead,
     this.bodyLeft,
     this.bodyCenter,
     this.bodyRight,
     this.centerAppBar = true,
+    this.isLead = false,
   });
 
   //макет общего экаран для app
@@ -49,7 +53,7 @@ class MyScaffold extends StatelessWidget {
         endDrawer: MainDrawer(),
         body: body!,
         // нижняя навигационная панель
-        bottomNavigationBar: AppBottomNavigationBar(
+        bottomNavigationBar: isLead! ? AppBottomNavigationBarLead(activeItem: appBottomNavigationItemLead!,) : AppBottomNavigationBar(
             activeItem: bottomNavigationActiveItem!),
       ),
     );

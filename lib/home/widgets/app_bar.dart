@@ -1,6 +1,7 @@
 import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_digital_finals/auth/model/psb_employee.dart';
 import 'package:flutter_app_digital_finals/home/widgets/search_widget.dart';
 import 'package:flutter_app_digital_finals/themes/colors.dart';
 
@@ -13,12 +14,15 @@ class CustomAppBar extends StatelessWidget{
   final SliverChildBuilderDelegate sliverChildBuilderDelegate;
   //текстовый контроллер относится к поисковой форме
   final TextEditingController controllerSearch;
+  final PsbEmployee psbEmployee;
+
 
   CustomAppBar({
     this.height,
     this.description,
     required this.sliverChildBuilderDelegate,
     required this.controllerSearch,
+    required this.psbEmployee,
   });
 
   final actions = Row(
@@ -93,7 +97,7 @@ class CustomAppBar extends StatelessWidget{
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Привет, Ольга!',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w700,fontFamily: 'Gilroy',fontSize: 22),),
+                        Text('Привет, ' + psbEmployee.name,style: TextStyle(color: Colors.black,fontWeight: FontWeight.w700,fontFamily: 'Gilroy',fontSize: 22),),
                         IconButton(onPressed: (){}, icon: const Icon(Icons.notifications_none,size: 23,color: Color(0xFF84848E),))
                       ],
                     ),

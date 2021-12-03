@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_digital_finals/auth/model/psb_employee.dart';
 import 'package:flutter_app_digital_finals/employees/web_employee_one_page.dart';
 import 'package:flutter_app_digital_finals/home/widgets/all_widgets.dart';
+import 'package:flutter_app_digital_finals/home/widgets/app_bar.dart';
 import 'package:flutter_app_digital_finals/home/widgets/box_task.dart';
 import 'package:flutter_app_digital_finals/home/widgets_web/web_header_green_orange_box.dart';
 import 'package:flutter_app_digital_finals/home/widgets_web/web_navigation_menu.dart';
 import 'package:flutter_app_digital_finals/themes/colors.dart';
+import 'package:flutter_app_digital_finals/widgets/app_bottom_navigation_bar.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +24,7 @@ class WebEmployeesPage extends StatefulWidget {
 }
 
 class WebEmployeesPageState extends State<WebEmployeesPage>{
-
+  TextEditingController searchController = TextEditingController();
   List<PsbEmployee> _emps = [];
 
   @override
@@ -34,12 +36,53 @@ class WebEmployeesPageState extends State<WebEmployeesPage>{
 
   @override
   Widget build(BuildContext context) {
+    PsbEmployee user = Provider.of<PsbEmployeeModelView>(context, listen: true).psbEmployee;
+
     return MyScaffold(
       centerAppBar: false,
       bodyRight: _rightBody(),
       bodyCenter: _centerBody(context),
       bodyLeft: _leftBody(),
+      appBottomNavigationItemLead: AppBottomNavigationItemLead.employee,
+      isLead: true,
+      body: _bodyApp(context,user),
     );
+  }
+
+  Widget _bodyApp(BuildContext context,PsbEmployee user){
+    //общий скафолд
+    final child = SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+        return _bodyLead();
+      },
+      childCount: 1,
+    );
+
+    return CustomAppBar(sliverChildBuilderDelegate: child,controllerSearch: searchController,psbEmployee: user,);
+  }
+
+  Widget _bodyLead(){
+
+    return Column(
+      children: [
+        //контенер красным и оранжевым контейнером
+        GreenOrangeHeaderWeb(employeeCount: _emps.length,),
+        Container(height: 8,),
+        ListView.builder(
+            shrinkWrap: true,
+            itemCount: _emps.length,
+            itemBuilder: (ctx, item){
+              return BoxEmployee(
+                nameContact: _emps.elementAt(item).name,
+                positionContact:  _emps.elementAt(item).position,
+                percent: '0.5',
+                intStar: 4,
+                id:  _emps.elementAt(item).id,
+                psbEmployee:  _emps.elementAt(item),
+              );
+            })
+      ],
+    );;
   }
 
   Widget _leftBody() {

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_digital_finals/my_scaffold.dart';
@@ -44,13 +45,11 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _body(BuildContext context){
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          _appbar(),
-          Expanded(child: _bodyBottom()),
-        ],
-      ),
+    return Column(
+      children: [
+        _appbar(),
+        Expanded(child: _bodyBottom()),
+      ],
     );
   }
 
@@ -99,7 +98,10 @@ class _ProfilePageState extends State<ProfilePage> {
         const Spacer(),
         SizedBox(width: 100,height: 100,child: Image.asset('assets/imageMyContactPhoto.png',fit: BoxFit.fill,)),
         const Spacer(),
-        IconButton(onPressed: (){}, icon: const Icon(Icons.settings,color: lightBlackTextPSB,size: 23,))
+        IconButton(onPressed: () async {
+          await FirebaseAuth.instance.signOut();
+          Navigator.pushNamed(context, "/LoginScreen");
+        }, icon: const Icon(Icons.exit_to_app,color: lightBlackTextPSB,size: 23,))
       ],
     );
   }
