@@ -149,7 +149,28 @@ class BoxTask extends StatelessWidget {
                                 activeColor: blueTextPSB,
                                 onChanged: (value){
                                   completed = value;
-                                  docSt.reference.update({"completed" : value});
+                                  if (completed) {
+                                    docSt.reference.update({
+                                      "completed" : value,
+                                      "completedDate" : DateTime.now(),
+                                    });
+                                    if (DateTime.now().isBefore(time)) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          int diff = time.difference(DateTime.now()).inMinutes;
+                                          docSt.reference.update({
+                                            "reward" : diff,
+                                          });
+                                          return AlertDialog(
+                                            title: Text("Вы завершили задачу на "
+                                                "$diff минут раньше срока! \n"
+                                                "Вам начислено $diff баллов!"),
+                                          );
+                                        },
+                                      );
+                                    }
+                                  }
                                 },
                                 value: completed,
                           ))
