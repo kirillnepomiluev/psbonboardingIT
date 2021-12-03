@@ -1,8 +1,12 @@
 
+import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app_digital_finals/auth/model/reward.dart';
-
+import 'package:flutter_app_digital_finals/home/widgets/all_widgets.dart';
+import 'package:flutter_app_digital_finals/home/widgets_web/web_navigation_menu.dart';
+import 'package:flutter_app_digital_finals/home/web_home_page.dart' as home;
 import '../../main.dart';
+import '../../my_scaffold.dart';
 
 class RewardWidget extends StatefulWidget {
 
@@ -23,17 +27,49 @@ class RewardWidgetState extends State<RewardWidget> {
   RewardWidgetState(this.mark);
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getRewards();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    throw Column(
+    return MyScaffold(
+      bodyRight: _rightBody(),
+      bodyCenter: Column(
+        children: [
+          Row(
+            children: [
+              Text("Вы заработали ${mark} баллов на покупки")
+            ],
+          ),
+          Column(children: _rewards,)
+        ],
+      ),
+      bodyLeft: _leftBody(),
+    );
+  }
+
+  Widget _leftBody() {
+    return Column(
       children: [
-        Row(
-          children: [
-            Text("Вы заработали ${mark} баллов на покупки")
-          ],
-        )
+        WebNavigationMenu(
+          activeItem: NavigationItem.knowledgeBase,
+        ),
+        Container(
+          height: 10,
+        ),
+        appTitle(title: 'Награды'),
+        home.listContact(),
       ],
     );
   }
+
+  Widget _rightBody() {
+    return home.boxTasksToday();
+  }
+
 
   void getRewards() async {
     List<Reward> guideElements = [];
@@ -47,7 +83,11 @@ class RewardWidgetState extends State<RewardWidget> {
         _rewards.add(
             Row(
               children: [
-                Image.network(element.imageUrl),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  child: Image.asset("assets/imageWelcome.png"),
+                ),
                 Column(
                   children: [
                     Text(element.reward),
