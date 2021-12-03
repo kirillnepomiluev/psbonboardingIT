@@ -26,6 +26,8 @@ class ScaffoldWeb extends StatelessWidget{
   //виджет отображающий правую часть страници (страница поделена на три части)
   final Widget bodyRight;
 
+  final bool? centerAppBar; // Nullable.
+
   ScaffoldWeb({
     this.floatingActionButton,
     required this.imageContact,
@@ -35,6 +37,7 @@ class ScaffoldWeb extends StatelessWidget{
     required this.bodyLeft,
     required this.bodyCenter,
     required this.bodyRight,
+    this.centerAppBar = true,
   });
 
   @override
@@ -46,6 +49,7 @@ class ScaffoldWeb extends StatelessWidget{
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(150),
           child: MyAppBarForWeb(
+            centerAppBar: centerAppBar,
             timeLastMessage: timeLastMessage,
             positionContact: positionContact,
             nameContact: nameContact,
@@ -61,8 +65,8 @@ class ScaffoldWeb extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SingleChildScrollView(child: Container(child: bodyLeft,width: mediaSizeWidth * 0.20)),
-              SingleChildScrollView(child: Container(padding: const EdgeInsets.only(left: 60,right: 60),child: bodyCenter,width: mediaSizeWidth * 0.47)),
-              SingleChildScrollView(child: Container(child: bodyRight,width: mediaSizeWidth * 0.23,))
+              Container(padding: const EdgeInsets.only(left: 60,right: 60),child: bodyCenter,width: mediaSizeWidth * 0.47),
+              Container(child: bodyRight,width: mediaSizeWidth * 0.23,)
             ],
           ),
         ), //
@@ -81,12 +85,14 @@ class MyAppBarForWeb extends StatelessWidget {
   final String positionContact;
   //время последнего сообщения
   final String timeLastMessage;
+  final bool? centerAppBar;
 
   MyAppBarForWeb({
     required this.imageContact,
     required this.nameContact,
     required this.positionContact,
     required this.timeLastMessage,
+    this.centerAppBar = true,
   });
 
   final TextEditingController _controllerSearch = TextEditingController();
@@ -104,7 +110,7 @@ class MyAppBarForWeb extends StatelessWidget {
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(child: _boxName(user),width: mediaSizeWidth * 0.20),
-          Container(child: _welcomeText(user, context),width: mediaSizeWidth * 0.47),
+          Container(child: centerAppBar! ? _welcomeText(user, context) : Container(),width: mediaSizeWidth * 0.47),
           Container(child: _search(),width: mediaSizeWidth * 0.23,)
         ],
       ),

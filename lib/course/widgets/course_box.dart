@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app_digital_finals/course/models/course_model.dart';
@@ -15,6 +16,57 @@ class BoxCourse extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return kIsWeb ? _web(context) : _app(context);
+  }
+
+  Widget _web(BuildContext context){
+    return InkWell(
+      onTap: (){
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ProjectPage(
+              course: project,
+            ),
+          ),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.only(bottom: 12),
+        margin: const  EdgeInsets.only(bottom: 15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: const Color(0xffEFF2F5),width: 1),
+          color: Colors.white,
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Image.asset('assets/imageHeaderCourse.png',fit: BoxFit.fill,),
+            ),
+            Expanded(
+              flex: 3,
+              child: Container(
+                margin: const EdgeInsets.only(left: 12,right: 12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(project.projectName,style: const TextStyle(color: blackTextPSB,fontSize: 14,fontFamily: 'Gilroy',fontWeight: FontWeight.w400),),
+                    Text(project.nameSection,style: const TextStyle(color: lightBlackTextPSB,fontSize: 13,fontFamily: 'Gilroy',fontWeight: FontWeight.w400)),
+                    _rowProgressAndRating()
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  Widget _app(BuildContext context){
     return InkWell(
       onTap: (){
         Navigator.of(context).push(

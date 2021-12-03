@@ -26,6 +26,7 @@ class MyScaffold extends StatelessWidget {
   final Widget? bodyCenter; // Nullable.
   //виджет отображающий правую часть страници (страница поделена на три части)
   final Widget? bodyRight; // Nullable.
+  final bool? centerAppBar; // Nullable.
 
   MyScaffold({
     this.body,
@@ -34,6 +35,7 @@ class MyScaffold extends StatelessWidget {
     this.bodyLeft,
     this.bodyCenter,
     this.bodyRight,
+    this.centerAppBar = true,
   });
 
   //макет общего экаран для app
@@ -56,6 +58,7 @@ class MyScaffold extends StatelessWidget {
   // макет общего экаран для web
   Widget _scaffoldWeb(BuildContext context){
     return ScaffoldWeb(
+      centerAppBar: centerAppBar,
       bodyLeft: bodyLeft!,
       bodyCenter: bodyCenter!,
       bodyRight: bodyRight!,

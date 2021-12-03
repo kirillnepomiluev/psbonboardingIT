@@ -11,6 +11,7 @@ import 'package:flutter_app_digital_finals/home/widgets_web/web_header_green_ora
 import 'package:flutter_app_digital_finals/home/widgets_web/web_navigation_menu.dart';
 import 'package:flutter_app_digital_finals/my_scaffold.dart';
 import 'package:flutter_app_digital_finals/profile/widgets/prize_widget_web.dart';
+import 'package:flutter_app_digital_finals/themes/colors.dart';
 import 'package:provider/provider.dart';
 
 import '../main.dart';
@@ -25,28 +26,10 @@ List<Map<String, dynamic>> chat = [
     "timeLastMessage": '10:30',
   },
   {
-    "imageContact": 'assets/imageMyContactPhoto.png',
-    "nameContact": 'Елизавета Михайлова',
+    "imageContact": 'assets/mentor1.png',
+    "nameContact": 'Петр Михайлов',
     "positionContact": 'Node.Js Developer',
-    "timeLastMessage": '10:30',
-  },
-  {
-    "imageContact": 'assets/imageMyContactPhoto.png',
-    "nameContact": 'Мария Павлова',
-    "positionContact": 'React Developer',
-    "timeLastMessage": '10:30',
-  },
-  {
-    "imageContact": 'assets/imageMyContactPhoto.png',
-    "nameContact": 'Николай Слободин',
-    "positionContact": 'Николай Слободин',
-    "timeLastMessage": '10:30',
-  },
-  {
-    "imageContact": 'assets/imageMyContactPhoto.png',
-    "nameContact": 'Олег Богатов',
-    "positionContact": 'Full-stack Developer',
-    "timeLastMessage": '10:30',
+    "timeLastMessage": '11:30',
   },
 ];
 
@@ -59,8 +42,9 @@ class HomePageWeb extends StatelessWidget {
     final bool isLead = user.group == 'LEAD';
 
     return MyScaffold(
+      centerAppBar: isLead ? false : true,
       bodyRight: _rightBody(),
-      bodyCenter: _centerBody(context, user),
+      bodyCenter: _centerBody(context, user,isLead: isLead),
       bodyLeft: _leftBody(isLead),
     );
   }
@@ -81,11 +65,22 @@ class HomePageWeb extends StatelessWidget {
   }
 
   Widget _rightBody() {
-    return boxTasksToday();
+    return tasksList();
   }
 
-  Widget _centerBody(BuildContext context, PsbEmployee psbEmployee) {
-    return Column(
+  Widget _centerBody(BuildContext context, PsbEmployee psbEmployee,{bool isLead = false}) {
+    return isLead ? SingleChildScrollView(
+      child: Column(
+        children: [
+          //контенер с призами
+          Image.asset('assets/analitics.png'),
+          //контейнер с курсами/проектами
+          boxCourses(context),
+          //курсы
+          ListAllCourse(),
+        ],
+      ),
+    )  : Column(
       children: [
         //контенер с призами
         PrizeWidget(psbEmployee.mark),
@@ -98,6 +93,70 @@ class HomePageWeb extends StatelessWidget {
   }
 
 }
+
+Widget tasksList() {
+  if (FirebaseAuth.instance.currentUser == null) {
+    return Container();
+  } else {
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 15),
+      child: Column(
+        children: [
+          appTitle(title: 'Задачи на сегодня'),
+          StreamBuilder(
+            stream: store
+                .collectionGroup("tasks")
+                .where("creator", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                .snapshots(),
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+
+              if(snapshot.hasError) {
+                print(snapshot.error);
+              }
+              if (snapshot.hasData) {
+                QuerySnapshot snapData = snapshot.data;
+                return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: snapData.docs.length,
+                  itemBuilder: (context, item) {
+                    Map<String, dynamic> data =
+                    snapData.docs[item].data() as Map<String, dynamic>;
+
+                    int maxItem = snapData.docs.length;
+
+                    final bool lastItem = item == maxItem - 1;
+                    final bool firstItem = item == 0;
+                    bool nextCompleted = false;
+                    if (!lastItem) {
+                      nextCompleted = (snapData.docs[item + 1].data()
+                      as Map<String, dynamic>)["completed"];
+                    }
+
+                    return BoxTask(
+                      firstItem: firstItem,
+                      time: (data['time'] as Timestamp).toDate(),
+                      online: data["online"],
+                      completed: data["completed"],
+                      textTask: data["textTask"].toString(),
+                      listItem: lastItem,
+                      docSt: snapData.docs[item],
+                      nextCompleted: nextCompleted,
+                    );
+                  },
+                );
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 
 //список контактов
 Widget listContact() {
@@ -182,7 +241,7 @@ Widget boxCourses(BuildContext context) {
     height: 200,
     child: Column(
       children: [
-        appTitle(title: 'Ваши курсы'),
+        appTitle(title: 'Курсы и проекты'),
         Expanded(
           child: allCourse(context),
         )
@@ -194,26 +253,65 @@ Widget boxCourses(BuildContext context) {
 
 //один курс
 Widget allCourse(BuildContext context) {
-  return InkWell(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ListCoursesPage(),
-        ),
-      );
-    },
-    child: Container(
-        width: 180,
-        height: 168,
-        margin: const EdgeInsets.only(right: 10),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        child: Image.asset(
-          'assets/courseImageOne.png',
-          fit: BoxFit.fill,
-        )),
+  return Row(
+    children: [
+      //задачи по разработке
+      InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ListCoursesPage(),
+            ),
+          );
+        },
+        child: Container(
+            width: 190,
+            height: 210,
+            margin: const EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.all(15),
+            decoration: const BoxDecoration(
+              color: orangePSB,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Задачи по разработке',style: TextStyle(color: Colors.white,fontFamily: 'Gilroy',fontSize: 21,fontWeight: FontWeight.w400),),
+                Text('Проект в Jira',style: TextStyle(color: Colors.white,fontFamily: 'Gilroy',fontSize: 16,fontWeight: FontWeight.w400),),
+              ],
+            )),
+      ),
+      //Основная информация
+      InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ListCoursesPage(),
+            ),
+          );
+        },
+        child: Container(
+            width: 190,
+            height: 210,
+            padding: const EdgeInsets.all(15),
+            margin: const EdgeInsets.only(right: 10),
+            decoration: const BoxDecoration(
+              color: greenPSB,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Основная информация',style: TextStyle(color: Colors.white,fontFamily: 'Gilroy',fontSize: 21,fontWeight: FontWeight.w400),),
+                Text('Проект в Сonfluense',style: TextStyle(color: Colors.white,fontFamily: 'Gilroy',fontSize: 16,fontWeight: FontWeight.w400),),
+              ],
+            )),
+      ),
+    ],
   );
 }
 
