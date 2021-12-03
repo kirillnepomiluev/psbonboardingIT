@@ -60,7 +60,7 @@ class HomePageWeb extends StatelessWidget {
 
     return MyScaffold(
       bodyRight: _rightBody(),
-      bodyCenter: _centerBody(context),
+      bodyCenter: _centerBody(context, user),
       bodyLeft: _leftBody(isLead),
     );
   }
@@ -84,11 +84,11 @@ class HomePageWeb extends StatelessWidget {
     return boxTasksToday();
   }
 
-  Widget _centerBody(BuildContext context) {
+  Widget _centerBody(BuildContext context, PsbEmployee psbEmployee) {
     return Column(
       children: [
         //контенер с призами
-        PrizeWidget(),
+        PrizeWidget(psbEmployee.mark),
         //контейнер с курсами/проектами
         boxCourses(context),
         //курсы

@@ -3,37 +3,47 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_digital_finals/home/widgets/all_widgets.dart';
+import 'package:flutter_app_digital_finals/profile/widgets/reward_widget_web.dart';
 
 class PrizeWidget extends StatefulWidget {
 
 
-  PrizeWidget();
+  PrizeWidget(this.mark);
+
+  final int mark;
 
   @override
-  _PrizeWidgetState createState() => _PrizeWidgetState();
+  _PrizeWidgetState createState() => _PrizeWidgetState(mark);
 
 }
 
 class _PrizeWidgetState extends State<PrizeWidget> {
 
-  _PrizeWidgetState();
+  _PrizeWidgetState(this.mark);
 
-
+  int mark;
 
 
   @override
   Widget build(BuildContext context) {
-    return boxPrizes();
+    return boxPrizes(context);
   }
 
   //контенер с наградами
-  Widget boxPrizes (){
+  Widget boxPrizes (BuildContext context){
     return Container(
       margin: const EdgeInsets.only(bottom: 15,top: 0),
       height: 115,
       child: Column(
         children: [
-          appTitle(title: 'Ваши награды'),
+          InkWell(
+            onTap: () {
+              Navigator.push(context, CupertinoPageRoute(
+                builder: (context) => RewardWidget(mark),
+              ));
+            },
+            child: appTitle(title: 'Ваши награды'),
+          ),
           Expanded(
             child: ListView.builder(
               shrinkWrap: true,

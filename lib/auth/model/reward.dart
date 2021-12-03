@@ -1,28 +1,22 @@
 
 class Reward {
 
-  final String name;
-  final String description;
-  final String imageUrl;
+
   final String reward;
-  final String rewardImageUrl;
+  final int mark;
 
 
-  Reward(this.name, this.description, this.imageUrl, this.reward,
-      this.rewardImageUrl);
+  Reward(this.reward, this.mark);
 
   factory Reward.fromMap(Map<String, dynamic> map) {
     return Reward(
-      map['name'],
-      map['description'],
-      map['imageUrl'],
       map['reward'],
-      map['rewardImageUrl'],
+      map['mark'],
     );
   }
 
   @override
   String toString() {
-    return 'Reward{name: $name, description: $description, imageUrl: $imageUrl, reward: $reward, rewardImageUrl: $rewardImageUrl}';
+    return 'Reward{reward: $reward, mark: $mark}';
   }
 }
