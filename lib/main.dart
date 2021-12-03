@@ -88,6 +88,7 @@ class _MyAppState extends State<MyApp> {
       //данные настроек
     ],
     child: MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: initialRout,
       onGenerateRoute: router.Router.generateRoute,
       title: 'LupMe',
