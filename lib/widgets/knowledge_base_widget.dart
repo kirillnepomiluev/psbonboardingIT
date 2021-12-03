@@ -63,19 +63,6 @@ class _KnowledgeBaseState extends State<KnowledgeBaseWidget> {
     return home.boxTasksToday();
   }
 
-  Widget _centerBody(BuildContext context) {
-    return Column(
-      children: [
-        //контенер с призами
-        PrizeWidget(),
-        //контейнер с курсами/проектами
-        home.boxCourses(context),
-        //курсы
-        ListAllCourse(),
-      ],
-    );
-  }
-
   void getGuides() async {
     List<GuideElement> guideElements = [];
     await store.collection("knowledge").get().then((querySnapshot) {
