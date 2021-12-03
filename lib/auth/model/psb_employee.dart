@@ -52,14 +52,14 @@ class PsbEmployeeModelView  with ChangeNotifier  {
 
   getPsbEmployeeFromFirebase (String id) async {
     DocumentSnapshot doc = await  store.collection("users").doc(id).get();
-
-    int marks = await store
+    Map m = doc.data() as Map<String, dynamic>;
+    int marks = m["group"] == "EMPLOYEE" ? await store
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid ?? "")
         .collection("tasks")
         .where("reward", isNull: false)
         .get()
-        .then((value) => value.docs.map((element) => element.data()["reward"]).reduce((value, element) => value + element));
+        .then((value) => value.docs.map((element) => element.data()["reward"]).reduce((value, element) => value + element)) : 0;
     if (marks != null) {
       _psbEmployee = PsbEmployee.fromMapWithMark(doc.data() as Map<String, dynamic>, marks);
     } else {
