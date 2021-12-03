@@ -10,8 +10,9 @@ class PsbEmployee  {
  final   String name;
  final  String group; //тип пользователя
  final String position; // должность
+ final int mark;
 
-  PsbEmployee({this.id = "no", this.name = "no", this.group ="EMPLOYEE", this.position = ""});
+  PsbEmployee({this.id = "no", this.name = "no", this.group ="EMPLOYEE", this.position = "", this.mark = 0});
 
   factory PsbEmployee.fromMap(Map<String, dynamic> map) {
     return PsbEmployee(
@@ -21,6 +22,16 @@ class PsbEmployee  {
       position:  map['position'].toString(),
     );
   }
+
+ factory PsbEmployee.fromMapWithMark(Map<String, dynamic> map, int mark) {
+   return PsbEmployee(
+     id: map['id'].toString(),
+     name: map['name'].toString(),
+     group: map['group'].toString(), //!!!!
+     position:  map['position'].toString(),
+     mark: mark
+   );
+ }
 }
  const List<String> EmployeeGroups = ["EMPLOYEE", "LEAD", "MENTOR"];
 
@@ -41,7 +52,20 @@ class PsbEmployeeModelView  with ChangeNotifier  {
 
   getPsbEmployeeFromFirebase (String id) async {
     DocumentSnapshot doc = await  store.collection("users").doc(id).get();
-   _psbEmployee = PsbEmployee.fromMap(doc.data() as Map<String, dynamic>);
+
+    int marks = await store
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid ?? "")
+        .collection("tasks")
+        .where("reward", isNull: false)
+        .get()
+        .then((value) => value.docs.map((element) => element.data()["reward"]).reduce((value, element) => value + element));
+    if (marks != null) {
+      _psbEmployee = PsbEmployee.fromMapWithMark(doc.data() as Map<String, dynamic>, marks);
+    } else {
+      _psbEmployee = PsbEmployee.fromMap(doc.data() as Map<String, dynamic>);
+    }
+
     notifyListeners();
   }
 }
