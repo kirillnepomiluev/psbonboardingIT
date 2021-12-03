@@ -20,18 +20,11 @@ class PsbEmployee  {
       name: map['name'].toString(),
       group: map['group'].toString(), //!!!!
       position:  map['position'].toString(),
+      mark: map['marks']?? 0
     );
   }
 
- factory PsbEmployee.fromMapWithMark(Map<String, dynamic> map, int mark) {
-   return PsbEmployee(
-     id: map['id'].toString(),
-     name: map['name'].toString(),
-     group: map['group'].toString(), //!!!!
-     position:  map['position'].toString(),
-     mark: mark
-   );
- }
+
 }
  const List<String> EmployeeGroups = ["EMPLOYEE", "LEAD", "MENTOR"];
 
@@ -51,22 +44,12 @@ class PsbEmployeeModelView  with ChangeNotifier  {
   }
 
   getPsbEmployeeFromFirebase (String id) async {
-    DocumentSnapshot doc = await  store.collection("users").doc(id).get();
-    Map m = doc.data() as Map<String, dynamic>;
-    int marks = m["group"] == "EMPLOYEE" ? await store
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.uid ?? "")
-        .collection("tasks")
-        .where("reward", isNull: false)
-        .get()
-        .then((value) => value.docs.map((element) => element.data()["reward"]).reduce((value, element) => value + element)) : 0;
-    if (marks != null) {
-      _psbEmployee = PsbEmployee.fromMapWithMark(doc.data() as Map<String, dynamic>, marks);
-    } else {
+    store.collection("users").doc(id).snapshots().listen((event) {
+      DocumentSnapshot  doc = event;
       _psbEmployee = PsbEmployee.fromMap(doc.data() as Map<String, dynamic>);
-    }
+      notifyListeners();
+    });
 
-    notifyListeners();
   }
 }
 

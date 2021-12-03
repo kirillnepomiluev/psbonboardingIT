@@ -94,7 +94,7 @@ class WebEmployeesPageState extends State<WebEmployeesPage>{
             StreamBuilder(
               stream: store
                   .collectionGroup("tasks")
-                  .where("creator", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                  .where("creator", isEqualTo: FirebaseAuth.instance.currentUser!.uid).orderBy("time")
                   .snapshots(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
 
@@ -130,6 +130,8 @@ class WebEmployeesPageState extends State<WebEmployeesPage>{
                         listItem: lastItem,
                         docSt: snapData.docs[item],
                         nextCompleted: nextCompleted,
+                        creator: data["creator"].toString(),
+                          employee: data["employee"].toString(),
                       );
                     },
                   );

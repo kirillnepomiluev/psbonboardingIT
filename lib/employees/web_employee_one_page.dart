@@ -29,7 +29,7 @@ class WebEmployeesOnePage extends StatelessWidget{
   Widget _leftBody() {
     return Column(
       children: [
-        WebNavigationMenuForProjectManager(activeItem: NavigationItemForProjectManager.home,),
+        WebNavigationMenuForProjectManager(activeItem: NavigationItemForProjectManager.employees,),
         Container(
           height: 10,
         ),

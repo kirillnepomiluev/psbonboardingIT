@@ -42,8 +42,8 @@ class HomePageWeb extends StatelessWidget {
     final bool isLead = user.group == 'LEAD';
 
     return MyScaffold(
-      centerAppBar: isLead ? false : true,
-      bodyRight: _rightBody(),
+      centerAppBar:  true,
+      bodyRight: _rightBody(islead: isLead ),
       bodyCenter: _centerBody(context, user,isLead: isLead),
       bodyLeft: _leftBody(isLead),
     );
@@ -64,8 +64,8 @@ class HomePageWeb extends StatelessWidget {
     );
   }
 
-  Widget _rightBody() {
-    return tasksList();
+  Widget _rightBody({bool islead = false}) {
+    return tasksList(islead: islead);
   }
 
   Widget _centerBody(BuildContext context, PsbEmployee psbEmployee,{bool isLead = false}) {
@@ -94,7 +94,7 @@ class HomePageWeb extends StatelessWidget {
 
 }
 
-Widget tasksList() {
+Widget tasksList({bool islead = false}) {
   if (FirebaseAuth.instance.currentUser == null) {
     return Container();
   } else {
@@ -105,10 +105,15 @@ Widget tasksList() {
         children: [
           appTitle(title: 'Задачи на сегодня'),
           StreamBuilder(
-            stream: store
+            stream:islead? store
                 .collectionGroup("tasks")
                 .where("creator", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                .snapshots(),
+                .orderBy("time")
+                .snapshots()
+                : store.collection("users")
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .collection("tasks")
+                .orderBy("time").snapshots(),
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
 
               if(snapshot.hasError) {
@@ -143,6 +148,8 @@ Widget tasksList() {
                       listItem: lastItem,
                       docSt: snapData.docs[item],
                       nextCompleted: nextCompleted,
+                      creator: data["creator"].toString(),
+                      employee: data["employee"].toString(),
                     );
                   },
                 );
@@ -189,7 +196,7 @@ Widget boxTasksToday() {
             stream: store
                 .collection("users")
                 .doc(FirebaseAuth.instance.currentUser!.uid ?? "")
-                .collection("tasks")
+                .collection("tasks").orderBy("time")
                 .snapshots(),
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               if (snapshot.hasData) {
@@ -220,6 +227,8 @@ Widget boxTasksToday() {
                       listItem: lastItem,
                       docSt: snapData.docs[item],
                       nextCompleted: nextCompleted,
+                      creator: data["creator"].toString(),
+                      employee: data["employee"].toString(),
                     );
                   },
                 );

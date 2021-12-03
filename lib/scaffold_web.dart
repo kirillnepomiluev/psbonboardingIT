@@ -192,7 +192,7 @@ class MyAppBarForWeb extends StatelessWidget {
           children: [
             Text('Привет',style: TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 22,color: lightBlackTextPSB),),
             Text(user.name,style: const TextStyle(fontWeight: FontWeight.w600,fontFamily: 'Gilroy',fontSize: 42,color: blackTextPSB),),
-            Text('у тебя ${user.mark} баллов',style: TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 22,color: lightBlackTextPSB),),
+           user.group =="LEAD"? Container():  Text('у тебя ${user.mark} баллов',style: TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 22,color: lightBlackTextPSB),),
           ],
         ),
         Container(width: 10,),

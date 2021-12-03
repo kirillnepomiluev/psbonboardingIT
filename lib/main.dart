@@ -91,7 +91,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: initialRout,
       onGenerateRoute: router.Router.generateRoute,
-      title: 'LupMe',
+      title: 'ПСБ - старт то work',
       theme: CustomTheme.of(context),
     ));
   }

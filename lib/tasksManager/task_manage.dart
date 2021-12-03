@@ -150,7 +150,8 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
                           "completed": false,
                           "time": _birthDate,
                           "closeType" :  _radioValue1==0? "employee" : _radioValue1==1? "lead" : "test",
-                          "creator" : FirebaseAuth.instance.currentUser!.uid
+                          "creator" : FirebaseAuth.instance.currentUser!.uid,
+                          "employee": widget.employeeID,
                         });
                       },
                       text: "Добавить")
@@ -223,7 +224,7 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
               stream: store
                   .collection("users")
                   .doc(userID)
-                  .collection("tasks")
+                  .collection("tasks").orderBy("time")
                   .snapshots(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.hasData) {
@@ -255,6 +256,8 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
                         listItem: lastItem,
                         docSt: snapData.docs[item],
                         nextCompleted: nextCompleted,
+                        creator: data["creator"].toString(),
+                        employee: data["employee"].toString(),
                       );
                     },
                   );
@@ -307,25 +310,26 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
                       type: DateTimePickerType.dateTimeSeparate,
                       dateMask: 'd MMM, yyyy',
                       initialValue: DateTime.now().toString(),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2100),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime.now().add(Duration(days:60 )),
                       icon: Icon(Icons.event),
                       dateLabelText: 'Date',
                       timeLabelText: "Hour",
-                      selectableDayPredicate: (date) {
-                        // Disable weekend days to select from the calendar
-                        if (date.weekday == 6 || date.weekday == 7) {
-                          return false;
-                        }
+                      onChanged: (val) {
+                          callback( DateTime.tryParse(val)?? DateTime.now());
 
-                        return true;
                       },
-                      onChanged: (val) => print(val),
+
+
+
+
+
                       validator: (val) {
                         print(val);
                         return null;
                       },
-                      onSaved: (val) => print(val),
+                      onSaved: (val) => print(" timePicked  " +val.toString())
+                         ,
                     ),
                   ),
                 ],

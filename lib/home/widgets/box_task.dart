@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_digital_finals/themes/colors.dart';
@@ -21,14 +22,20 @@ class BoxTask extends StatelessWidget {
   final String textTask;
   final QueryDocumentSnapshot docSt;
   final bool nextCompleted;
+  final String creator;
+  final String employee;
   BoxTask(
       {required this.time,
       required this.online,
       required this.completed,
       required this.firstItem,
       required this.listItem,
-      required this.textTask, required this.docSt,
+      required this.textTask,
+        required this.docSt,
         required this.nextCompleted,
+        required this.creator,
+        required this.employee
+
       });
 
   @override
@@ -155,20 +162,39 @@ class BoxTask extends StatelessWidget {
                                       "completedDate" : DateTime.now(),
                                     });
                                     if (DateTime.now().isBefore(time)) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          int diff = time.difference(DateTime.now()).inMinutes;
-                                          docSt.reference.update({
-                                            "reward" : diff,
-                                          });
-                                          return AlertDialog(
-                                            title: Text("Вы завершили задачу на "
-                                                "$diff минут раньше срока! \n"
-                                                "Вам начислено $diff баллов!"),
+                                      int diff = time.difference(DateTime.now()).inMinutes;
+                                        if (FirebaseAuth.instance.currentUser!.uid == creator) {
+                                          store.collection("users").doc(
+                                              employee).update(
+                                              {
+                                                "marks": FieldValue.increment(
+                                                    diff / 2.floor())
+                                              });
+
+                                        }
+                                        else {
+                                          store.collection("users").doc(
+                                              FirebaseAuth.instance.currentUser!
+                                                  .uid).update(
+                                              {
+                                                "marks": FieldValue.increment(
+                                                    diff / 2.floor())
+                                              });
+
+
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: Text(
+                                                    "Вы завершили задачу на "
+                                                        "${diff / 2
+                                                        .floor() } минут раньше срока! \n"
+                                                        "Вам начислено $diff баллов!"),
+                                              );
+                                            },
                                           );
-                                        },
-                                      );
+                                        }
                                     }
                                   }
                                 },

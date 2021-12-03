@@ -199,7 +199,7 @@ class HomePage extends StatelessWidget{
                 stream: store
                     .collection("users")
                     .doc(FirebaseAuth.instance.currentUser!.uid ?? "")
-                    .collection("tasks")
+                    .collection("tasks").orderBy("time")
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<dynamic> snapshot) {
@@ -231,6 +231,8 @@ class HomePage extends StatelessWidget{
                           listItem: lastItem,
                           docSt: snapData.docs[item],
                           nextCompleted: nextComleted,
+                          creator: data["creator"].toString(),
+                          employee: data["employee"].toString(),
                         );
                       },
                     );

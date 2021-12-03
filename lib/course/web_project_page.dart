@@ -38,23 +38,25 @@ class ProjectPageWeb extends StatelessWidget{
   }
 
   Widget _centerBody(BuildContext context){
-    return Column(
-      children: [
-        _boxForHeaderAndDescription(),
-        Container(height: 15,),
-        _boxForHeaderAndDescription(logo: false,description: 'Сокращение срока адаптации нового сотрудника проекта с 3 месяцев до 1 месяца. ',header: 'Цель проекта'),
-        Container(height: 15,),
-        Image.asset('assets/imageCompulsoryActivities.png'),
-        Container(height: 15,),
-        Image.asset('assets/imagePlanWork.png'),
-        Container(height: 15,),
-        _boxForHeaderAndDescription(logo: false,description: 'Веб-приложение для сотрудников банка.',header: 'Результаты проекта'),
-        Container(height: 15,),
-        Image.asset('assets/imageOrganizationalStructure.png'),
-        Container(height: 15,),
-        Image.asset('assets/communicationMap.png'),
-        Container(height: 15,),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _boxForHeaderAndDescription(),
+          Container(height: 15,),
+          _boxForHeaderAndDescription(logo: false,description: 'Сокращение срока адаптации нового сотрудника проекта с 3 месяцев до 1 месяца. ',header: 'Цель проекта'),
+          Container(height: 15,),
+          Image.asset('assets/imageCompulsoryActivities.png'),
+          Container(height: 15,),
+          Image.asset('assets/imagePlanWork.png'),
+          Container(height: 15,),
+          _boxForHeaderAndDescription(logo: false,description: 'Веб-приложение для сотрудников банка.',header: 'Результаты проекта'),
+          Container(height: 15,),
+          Image.asset('assets/imageOrganizationalStructure.png'),
+          Container(height: 15,),
+          Image.asset('assets/communicationMap.png'),
+          Container(height: 15,),
+        ],
+      ),
     );
   }
 
