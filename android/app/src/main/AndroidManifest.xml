@@ -2,7 +2,7 @@
     package="com.example.flutter_app_digital_finals">
    <application
         android:label="flutter_app_digital_finals"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
