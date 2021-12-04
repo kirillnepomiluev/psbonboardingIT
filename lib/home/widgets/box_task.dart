@@ -10,20 +10,26 @@ import '../../main.dart';
 class BoxTask extends StatelessWidget {
   //назначенное время на задачу
   final DateTime time;
+
   //в каком формате проходит задача
   final bool online;
+
   //статус готовности
   bool completed;
+
   //проверка на первый элемент с вписке
   final bool firstItem;
+
   //проверка на последний элемент с вписке
   final bool listItem;
+
   //описание задачи
   final String textTask;
   final QueryDocumentSnapshot docSt;
   final bool nextCompleted;
   final String creator;
   final String employee;
+
   BoxTask(
       {required this.time,
       required this.online,
@@ -31,16 +37,13 @@ class BoxTask extends StatelessWidget {
       required this.firstItem,
       required this.listItem,
       required this.textTask,
-        required this.docSt,
-        required this.nextCompleted,
-        required this.creator,
-        required this.employee
-
-      });
+      required this.docSt,
+      required this.nextCompleted,
+      required this.creator,
+      required this.employee});
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       height: 120,
       child: Row(
@@ -52,7 +55,7 @@ class BoxTask extends StatelessWidget {
               Expanded(
                 child: Container(
                   // height: 70,
-                  width: firstItem? 0: 1,
+                  width: firstItem ? 0 : 1,
                   color: completed ? orangePSB : const Color(0xFFEBEBEB),
                 ),
               ),
@@ -77,12 +80,12 @@ class BoxTask extends StatelessWidget {
                           )),
               ),
               Expanded(
-                      child: Container(
-                        // height: 70,
-                        width:listItem?0: 1,
-                        color:  nextCompleted ? orangePSB : const Color(0xFFEBEBEB),
-                      ),
-                    )
+                child: Container(
+                  // height: 70,
+                  width: listItem ? 0 : 1,
+                  color: nextCompleted ? orangePSB : const Color(0xFFEBEBEB),
+                ),
+              )
             ],
           ),
           //формат и время задачи
@@ -113,7 +116,7 @@ class BoxTask extends StatelessWidget {
                               width: 43,
                               child: Center(
                                   child: Text(
-                                    DateFormat('HH:mm').format(time),
+                                DateFormat('HH:mm').format(time),
                                 style: const TextStyle(
                                     fontSize: 14,
                                     fontFamily: 'Gilroy',
@@ -151,67 +154,95 @@ class BoxTask extends StatelessWidget {
                                       fontWeight: FontWeight.w400,
                                       color: blueTextPSB)))),
                       Container(
-                          margin: const EdgeInsets.only(top: 0, right: 20, left: 20),
+                          margin: const EdgeInsets.only(
+                              top: 0, right: 20, left: 20),
                           child: CupertinoSwitch(
-                                activeColor: blueTextPSB,
-                                onChanged: (value){
-                                  completed = value;
-                                  if (completed) {
-                                    docSt.reference.update({
-                                      "completed" : value,
-                                      "completedDate" : DateTime.now(),
+                            activeColor: blueTextPSB,
+                            onChanged: (value) {
+                              completed = value;
+                              if (completed) {
+                                docSt.reference.update({
+                                  "completed": value,
+                                  "completedDate": DateTime.now(),
+                                });
+                                if (DateTime.now().isBefore(time)) {
+                                  int diff =
+                                      time.difference(DateTime.now()).inMinutes;
+                                  if (FirebaseAuth.instance.currentUser!.uid ==
+                                      creator) {
+                                    store
+                                        .collection("users")
+                                        .doc(employee)
+                                        .update({
+                                      "marks":
+                                          FieldValue.increment(diff / 2.floor())
                                     });
-                                    if (DateTime.now().isBefore(time)) {
-                                      int diff = time.difference(DateTime.now()).inMinutes;
-                                        if (FirebaseAuth.instance.currentUser!.uid == creator) {
-                                          store.collection("users").doc(
-                                              employee).update(
-                                              {
-                                                "marks": FieldValue.increment(
-                                                    diff / 2.floor())
-                                              });
+                                  } else {
+                                    store
+                                        .collection("users")
+                                        .doc(FirebaseAuth
+                                            .instance.currentUser!.uid)
+                                        .update({
+                                      "marks":
+                                          FieldValue.increment(diff / 2.floor())
+                                    });
 
-                                        }
-                                        else {
-                                          store.collection("users").doc(
-                                              FirebaseAuth.instance.currentUser!
-                                                  .uid).update(
-                                              {
-                                                "marks": FieldValue.increment(
-                                                    diff / 2.floor())
-                                              });
-
-
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                title: Text(
-                                                    "Вы завершили задачу на "
-                                                        "${diff / 2
-                                                        .floor() } минут раньше срока! \n"
-                                                        "Вам начислено $diff баллов!"),
-                                              );
-                                            },
-                                          );
-                                        }
-                                    }
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text("Вы завершили задачу на "
+                                              "${diff / 2.floor()} минут раньше срока! \n"
+                                              "Вам начислено $diff баллов!"),
+                                        );
+                                      },
+                                    );
                                   }
-                                },
-                                value: completed,
+                                }
+                              }
+                            },
+                            value: completed,
                           ))
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(CupertinoIcons.heart,size: 18,color: lightBlackTextPSB,),
-                      Container(width: 8,),
-                      Text('Нравится',style: TextStyle(color: blackTextPSB,fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 14),),
-                      Container(width: 15,),
-                      Icon(Icons.comment,size: 18,color: lightBlackTextPSB,),
-                      Container(width: 8,),
-                      Text('Комментарий',style: TextStyle(color: blackTextPSB,fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 14),),
+                      Icon(
+                        CupertinoIcons.heart,
+                        size: 18,
+                        color: lightBlackTextPSB,
+                      ),
+                      Container(
+                        width: 8,
+                      ),
+                      Text(
+                        'Нравится',
+                        style: TextStyle(
+                            color: blackTextPSB,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'Gilroy',
+                            fontSize: 14),
+                      ),
+                      Container(
+                        width: 15,
+                      ),
+                      Icon(
+                        Icons.comment,
+                        size: 18,
+                        color: lightBlackTextPSB,
+                      ),
+                      Container(
+                        width: 8,
+                      ),
+                      Text(
+                        'Комментарий',
+                        style: TextStyle(
+                            color: blackTextPSB,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'Gilroy',
+                            fontSize: 14),
+                      ),
                     ],
                   )
                 ],

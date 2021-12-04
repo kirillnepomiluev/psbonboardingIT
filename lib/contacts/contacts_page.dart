@@ -17,44 +17,45 @@ class ContactsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final body = DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(80), child: _appbar()),
-          body: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              children: [
-                //навигационная панель
-                _tapBar(),
-                //основная часть со сменяемыми экранами
-                Expanded(
-                  child: tapBarView,
-                ),
-              ],
-            ),
+      length: 2,
+      child: Scaffold(
+        appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(80), child: _appbar()),
+        body: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              //навигационная панель
+              _tapBar(),
+              //основная часть со сменяемыми экранами
+              Expanded(
+                child: tapBarView,
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
 
-    return MyScaffold(body: body, bottomNavigationActiveItem: AppBottomNavigationItem.contacts);
+    return MyScaffold(
+        body: body,
+        bottomNavigationActiveItem: AppBottomNavigationItem.contacts);
   }
 
   //апп бар
   Widget _appbar() {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(25),
-            bottomRight: Radius.circular(25),
-          ),
+        color: Colors.white,
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(25),
+          bottomRight: Radius.circular(25),
+        ),
         boxShadow: [
           BoxShadow(
               color: arrowRightPSB.withOpacity(0.2),
               spreadRadius: 8,
-              blurRadius: 8
-          ),
+              blurRadius: 8),
         ],
       ),
       child: Center(
@@ -63,30 +64,33 @@ class ContactsPage extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
-              Text('Контакты',style: TextStyle(
-                  fontSize: 22,
-                  fontFamily: 'Gilroy',
-                  fontWeight: FontWeight.w700),),
-              Icon(CupertinoIcons.search,size: 20,)
+              Text(
+                'Контакты',
+                style: TextStyle(
+                    fontSize: 22,
+                    fontFamily: 'Gilroy',
+                    fontWeight: FontWeight.w700),
+              ),
+              Icon(
+                CupertinoIcons.search,
+                size: 20,
+              )
             ],
           ),
         ),
       ),
     );
   }
+
   //навигационная панель
   Widget _tapBar() {
     return const TabBar(
       indicatorColor: orangePSB,
       unselectedLabelColor: blackTextPSB,
       labelStyle: TextStyle(
-          fontSize: 16,
-          fontFamily: 'Gilroy',
-          fontWeight: FontWeight.w500),
+          fontSize: 16, fontFamily: 'Gilroy', fontWeight: FontWeight.w500),
       unselectedLabelStyle: TextStyle(
-          fontSize: 16,
-          fontFamily: 'Gilroy',
-          fontWeight: FontWeight.w500),
+          fontSize: 16, fontFamily: 'Gilroy', fontWeight: FontWeight.w500),
       tabs: [
         Tab(
           text: 'Моя команда',
@@ -100,8 +104,7 @@ class ContactsPage extends StatelessWidget {
 }
 
 //класс для отображения участников моей команды
-class ListMyTeam extends StatelessWidget{
-
+class ListMyTeam extends StatelessWidget {
   //список чатов (база)
   List<Map<String, dynamic>> chat = [
     {
@@ -140,14 +143,13 @@ class ListMyTeam extends StatelessWidget{
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: chat.length,
-        itemBuilder: (ctx, item){
+        itemBuilder: (ctx, item) {
           return ChatCard(
             imageContact: chat[item]['imageContact'],
             nameContact: chat[item]['nameContact'],
             positionContact: chat[item]['positionContact'],
             timeLastMessage: chat[item]['timeLastMessage'],
           );
-    });
+        });
   }
-
 }

@@ -15,16 +15,22 @@ import 'data_course.dart';
 class CoursePage extends StatelessWidget {
   //название курса
   final String courseName;
+
   //имя куратора
   final String curatorName;
+
   //начат ли курс?
   final bool startCourse;
+
   //продолжительность курса
   final String timeCourse;
+
   //описание курса
   final String descriptionCourse;
+
   //рейтинг курса
   final String ratingCourse;
+
   //рейтинг куратора
   final String ratingCurator;
 
@@ -64,7 +70,7 @@ class CoursePage extends StatelessWidget {
               right: 30,
               top: MediaQuery.of(context).size.height * 0.33,
               child: InkWell(
-                onTap: (){},
+                onTap: () {},
                 child: Container(
                   width: 60,
                   height: 50,
@@ -73,7 +79,11 @@ class CoursePage extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: const Center(
-                    child: Icon(Icons.play_arrow_outlined,size: 24,color: Colors.white,),
+                    child: Icon(
+                      Icons.play_arrow_outlined,
+                      size: 24,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -92,16 +102,17 @@ class CoursePage extends StatelessWidget {
             BoxShadow(
                 color: arrowRightPSB.withOpacity(0.2),
                 spreadRadius: 5,
-                blurRadius: 6
-            ),
+                blurRadius: 6),
           ],
           color: Colors.white,
-          borderRadius: const BorderRadius.only(topLeft: Radius.circular(25),topRight: Radius.circular(25))
-      ),
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(25), topRight: Radius.circular(25))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(height: 10,),
+          Container(
+            height: 10,
+          ),
           //название курса
           Text(
             courseName,
@@ -131,13 +142,16 @@ class CoursePage extends StatelessWidget {
                             fontSize: 14,
                             fontFamily: 'Gilroy',
                             fontWeight: FontWeight.w400))),
-                Expanded(child: Container(),),
-                const Icon(Icons.star,size: 16,color: starPSB),
-                Text(ratingCurator, style: const TextStyle(
-                    color: blackTextPSB,
-                    fontSize: 14,
-                    fontFamily: 'Gilroy',
-                    fontWeight: FontWeight.w400)),
+                Expanded(
+                  child: Container(),
+                ),
+                const Icon(Icons.star, size: 16, color: starPSB),
+                Text(ratingCurator,
+                    style: const TextStyle(
+                        color: blackTextPSB,
+                        fontSize: 14,
+                        fontFamily: 'Gilroy',
+                        fontWeight: FontWeight.w400)),
               ],
             ),
           ),
@@ -146,17 +160,29 @@ class CoursePage extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 10),
             child: Row(
               children: [
-                const Icon(Icons.play_circle_outline_rounded,size: 18,),
-                Container(width: 5,),
+                const Icon(
+                  Icons.play_circle_outline_rounded,
+                  size: 18,
+                ),
+                Container(
+                  width: 5,
+                ),
                 Text(startCourse ? 'Курс начат' : 'Курс не начат',
                     style: const TextStyle(
                         color: lightBlackTextPSB,
                         fontSize: 14,
                         fontFamily: 'Gilroy',
                         fontWeight: FontWeight.w400)),
-                Container(width: 25,),
-                const Icon(Icons.access_time_rounded,size: 18,),
-                Container(width: 5,),
+                Container(
+                  width: 25,
+                ),
+                const Icon(
+                  Icons.access_time_rounded,
+                  size: 18,
+                ),
+                Container(
+                  width: 5,
+                ),
                 Text(timeCourse,
                     style: const TextStyle(
                         color: lightBlackTextPSB,
@@ -203,9 +229,9 @@ class CoursePage extends StatelessWidget {
   }
 
   //заголовок пункта
-  Widget _header(String text){
+  Widget _header(String text) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 10,top: 10),
+      margin: const EdgeInsets.only(bottom: 10, top: 10),
       child: Text(
         text,
         style: const TextStyle(
@@ -218,9 +244,9 @@ class CoursePage extends StatelessWidget {
   }
 
   //строчка с рейтингом курса
-  Widget _rowTextRating(){
+  Widget _rowTextRating() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 0,top: 10),
+      margin: const EdgeInsets.only(bottom: 0, top: 10),
       child: Row(
         children: [
           Text(
@@ -231,7 +257,9 @@ class CoursePage extends StatelessWidget {
                 fontFamily: 'Gilroy',
                 fontWeight: FontWeight.w700),
           ),
-          Container(width: 14,),
+          Container(
+            width: 14,
+          ),
           const Text(
             'оценка прошедших Онбординг',
             style: TextStyle(
@@ -246,7 +274,7 @@ class CoursePage extends StatelessWidget {
   }
 
   //список FAQ
-  Widget _listFAQ(){
+  Widget _listFAQ() {
     return ListView.builder(
         padding: EdgeInsets.zero,
         shrinkWrap: true,
@@ -258,82 +286,80 @@ class CoursePage extends StatelessWidget {
               StringFAQ(
                 text: faq[item]['text'],
               ),
-              Container(height: 7,)
+              Container(
+                height: 7,
+              )
             ],
           );
-        }
-    );
+        });
   }
 
   //список того что нас ждет на курсе
-  Widget _listStringAwaitsCourse(){
+  Widget _listStringAwaitsCourse() {
     return ListView.builder(
-      padding: EdgeInsets.zero,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: awaitCourse.length,
-      itemBuilder: (ctx, item) {
-        return Column(
-          children: [
-            StringAwaitsCourse(
-              icon: awaitCourse[item]['icon'],
-              text: awaitCourse[item]['text'],
-            ),
-            Container(height: 7,)
-          ],
-        );
-      }
-    );
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: awaitCourse.length,
+        itemBuilder: (ctx, item) {
+          return Column(
+            children: [
+              StringAwaitsCourse(
+                icon: awaitCourse[item]['icon'],
+                text: awaitCourse[item]['text'],
+              ),
+              Container(
+                height: 7,
+              )
+            ],
+          );
+        });
   }
 
   //список уроков
-  Widget _listLesson(){
+  Widget _listLesson() {
     return ListView.builder(
-      padding: EdgeInsets.zero,
-      itemCount: lessons.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (ctx, item){
+        padding: EdgeInsets.zero,
+        itemCount: lessons.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (ctx, item) {
           return BoxLesson(
             number: lessons[item]['number'],
             durationLesson: lessons[item]['durationLesson'],
             nameLesson: lessons[item]['nameLesson'],
           );
-        }
-    );
+        });
   }
 
   //список менторов
-  Widget _listMentor(){
+  Widget _listMentor() {
     return ListView.builder(
-      itemCount: mentors.length,
-      padding: EdgeInsets.zero,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (ctx, item){
+        itemCount: mentors.length,
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (ctx, item) {
           return BoxMentor(
             imageMentor: mentors[item]['imageMentor'],
             nameMentor: mentors[item]['nameMentor'],
             positionMentor: mentors[item]['positionMentor'],
           );
-        }
-    );
+        });
   }
 
   //рейтинг бокс
-  Widget _boxRating(){
+  Widget _boxRating() {
     return ListView.builder(
-      padding: EdgeInsets.zero,
-      itemCount: rating.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (ctx, item){
+        padding: EdgeInsets.zero,
+        itemCount: rating.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (ctx, item) {
           return RatingRow(
             intStar: rating[item]['intStar'],
             percent: rating[item]['percent'],
           );
-        }
-    );
+        });
   }
-
 }

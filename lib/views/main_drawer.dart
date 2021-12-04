@@ -32,7 +32,7 @@ class _MainDrawerState extends State<MainDrawer>
   @override
   bool get wantKeepAlive => true;
 
-  Widget _menu(){
+  Widget _menu() {
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -40,8 +40,8 @@ class _MainDrawerState extends State<MainDrawer>
           Expanded(
             flex: 3,
             child:
-            // imageOnDrawerTop == null ? Text('Загрузка...') :
-            DrawerHeader(
+                // imageOnDrawerTop == null ? Text('Загрузка...') :
+                DrawerHeader(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -79,8 +79,14 @@ class _MainDrawerState extends State<MainDrawer>
                     mIcon: Icons.star_purple500_sharp,
                     indexNumber: 1),
                 buildListTile(context,
-                    title: "Settings", direction1: false, onTap: () {}, mIcon: Icons.call, indexNumber: 1),
-                buildListTile(context, title: "Edit profile", direction1: false,
+                    title: "Settings",
+                    direction1: false,
+                    onTap: () {},
+                    mIcon: Icons.call,
+                    indexNumber: 1),
+                buildListTile(context,
+                    title: "Edit profile",
+                    direction1: false,
                     onTap: () {},
                     // direction: "/calendar",
                     mIcon: Icons.stop_sharp,
@@ -96,7 +102,8 @@ class _MainDrawerState extends State<MainDrawer>
                     title: "Likes",
                     direction: "/statistic2",
                     mIcon: Icons.list_alt,
-                    indexNumber: 4)              ],
+                    indexNumber: 4)
+              ],
             ),
           ),
           Expanded(
@@ -121,14 +128,13 @@ class _MainDrawerState extends State<MainDrawer>
     );
   }
 
-  ListTile buildListTile(BuildContext context, {
-        int indexNumber = 0,
-        bool direction1 = false,
-        direction = '/',
-        IconData? mIcon,
-        title = "Главная",
-        Function? onTap
-      }) {
+  ListTile buildListTile(BuildContext context,
+      {int indexNumber = 0,
+      bool direction1 = false,
+      direction = '/',
+      IconData? mIcon,
+      title = "Главная",
+      Function? onTap}) {
     bool selected = index == indexNumber ? true : false;
     Color? _iconColor = selected
         ? Theme.of(context).textTheme.headline3!.color
@@ -164,6 +170,4 @@ class _MainDrawerState extends State<MainDrawer>
           direction1 ? Navigator.pushNamed(context, direction) : onTap!();
         });
   }
-
-
 }

@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -16,14 +15,11 @@ import '../main.dart';
 import '../my_scaffold.dart';
 
 class KnowledgeBaseWidget extends StatefulWidget {
-
-
   @override
   _KnowledgeBaseState createState() => _KnowledgeBaseState();
 }
 
 class _KnowledgeBaseState extends State<KnowledgeBaseWidget> {
-
   List<Widget> _guideElements = [];
 
   @override
@@ -72,51 +68,43 @@ class _KnowledgeBaseState extends State<KnowledgeBaseWidget> {
     });
     setState(() {
       guideElements.forEach((element) {
-        _guideElements.add(
-            HoverWidget(
-                child: Container(
-                  padding: EdgeInsets.all(15.0),
-                  child: Center(
-                    child: RichText(
-                      text: TextSpan(
-                        text: element.name,
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 20.0
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () { launch(element.link);
-                          },
-                      ),
-                    ),
+        _guideElements.add(HoverWidget(
+            child: Container(
+              padding: EdgeInsets.all(15.0),
+              child: Center(
+                child: RichText(
+                  text: TextSpan(
+                    text: element.name,
+                    style: TextStyle(color: Colors.blue, fontSize: 20.0),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        launch(element.link);
+                      },
                   ),
                 ),
-                hoverChild: Container(
-                  decoration: const BoxDecoration(
-                      color: Colors.grey,
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.all(Radius.circular(3.0))
-                  ),
-                  padding: EdgeInsets.all(15.0),
-                  child: Center(
-                    child: RichText(
-                      text: TextSpan(
-                        text: element.name,
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 20.0
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () { launch(element.link);
-                          },
-                      ),
-                    ),
+              ),
+            ),
+            hoverChild: Container(
+              decoration: const BoxDecoration(
+                  color: Colors.grey,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.all(Radius.circular(3.0))),
+              padding: EdgeInsets.all(15.0),
+              child: Center(
+                child: RichText(
+                  text: TextSpan(
+                    text: element.name,
+                    style: TextStyle(color: Colors.blue, fontSize: 20.0),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        launch(element.link);
+                      },
                   ),
                 ),
-                onHover: (h) {})
-        );
+              ),
+            ),
+            onHover: (h) {}));
       });
-
     });
   }
 }

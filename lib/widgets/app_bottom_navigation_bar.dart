@@ -42,31 +42,23 @@ class AppBottomNavigationBar extends StatelessWidget {
             backgroundColor: backgroundColorNavigationMenu,
             type: BottomNavigationBarType.fixed,
             showUnselectedLabels: true,
-            selectedItemColor: isBottomMenuActive
-                ? orangePSB
-                : lightBlackTextPSB,
+            selectedItemColor:
+                isBottomMenuActive ? orangePSB : lightBlackTextPSB,
             unselectedItemColor: lightBlackTextPSB,
             currentIndex: itemIndex,
             items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Главная"),
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: "Главная"
-              ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.help_center),
-                  label: "Проект"),
+                  icon: Icon(Icons.help_center), label: "Проект"),
               BottomNavigationBarItem(
                 icon: Icon(Icons.sticky_note_2_outlined),
                 label: "курсы",
               ),
               BottomNavigationBarItem(
                   icon: Icon(Icons.perm_contact_calendar_sharp),
-                  label: "Контакты"
-              ),
+                  label: "Контакты"),
               BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.profile_circled),
-                  label: "Профиль"
-              ),
+                  icon: Icon(CupertinoIcons.profile_circled), label: "Профиль"),
             ],
             onTap: (index) {
               switch (index) {
@@ -98,7 +90,7 @@ class AppBottomNavigationBar extends StatelessWidget {
                     ),
                   );
                   break;
-                 case 4:
+                case 4:
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => ProfilePage(),
@@ -119,13 +111,7 @@ class AppBottomNavigationBar extends StatelessWidget {
   }
 }
 
-enum AppBottomNavigationItem {
-  main,
-  project,
-  courses,
-  contacts,
-  profile
-}
+enum AppBottomNavigationItem { main, project, courses, contacts, profile }
 
 //нижняя навигационная панель
 class AppBottomNavigationBarLead extends StatelessWidget {
@@ -160,35 +146,24 @@ class AppBottomNavigationBarLead extends StatelessWidget {
             backgroundColor: backgroundColorNavigationMenu,
             type: BottomNavigationBarType.fixed,
             showUnselectedLabels: true,
-            selectedItemColor: isBottomMenuActive
-                ? orangePSB
-                : lightBlackTextPSB,
+            selectedItemColor:
+                isBottomMenuActive ? orangePSB : lightBlackTextPSB,
             unselectedItemColor: lightBlackTextPSB,
             currentIndex: itemIndex,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.home),
-                  label: "Главная"
-              ),
+                  icon: Icon(CupertinoIcons.home), label: "Главная"),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.people),
-                  label: "Сотрудники"),
+                  icon: Icon(Icons.people), label: "Сотрудники"),
               BottomNavigationBarItem(
                 icon: Icon(Icons.analytics_outlined),
                 label: "Аналитика",
               ),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.check_box_outline_blank),
-                  label: "Тесты"
-              ),
+                  icon: Icon(Icons.check_box_outline_blank), label: "Тесты"),
+              BottomNavigationBarItem(icon: Icon(Icons.margin), label: "Курсы"),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.margin),
-                  label: "Курсы"
-              ),
-              BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.profile_circled),
-                  label: "Проекты"
-              ),
+                  icon: Icon(CupertinoIcons.profile_circled), label: "Проекты"),
             ],
             onTap: (index) {
               switch (index) {
@@ -227,7 +202,7 @@ class AppBottomNavigationBarLead extends StatelessWidget {
                     ),
                   );
                   break;
-                 case 5:
+                case 5:
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => HomePage(),

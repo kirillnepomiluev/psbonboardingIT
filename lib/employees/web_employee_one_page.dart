@@ -10,11 +10,11 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../my_scaffold.dart';
 
-class WebEmployeesOnePage extends StatelessWidget{
+class WebEmployeesOnePage extends StatelessWidget {
   String id;
   PsbEmployee psbEmployee;
 
-  WebEmployeesOnePage({required this.id,required this.psbEmployee});
+  WebEmployeesOnePage({required this.id, required this.psbEmployee});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,9 @@ class WebEmployeesOnePage extends StatelessWidget{
   Widget _leftBody() {
     return Column(
       children: [
-        WebNavigationMenuForProjectManager(activeItem: NavigationItemForProjectManager.employees,),
+        WebNavigationMenuForProjectManager(
+          activeItem: NavigationItemForProjectManager.employees,
+        ),
         Container(
           height: 10,
         ),
@@ -40,17 +42,13 @@ class WebEmployeesOnePage extends StatelessWidget{
   Widget _centerBody(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        children: [
-          _appbar(context),
-          _allInfoEmployee(),
-          _prizes()
-        ],
+        children: [_appbar(context), _allInfoEmployee(), _prizes()],
       ),
     );
   }
 
   //список призов
-  Widget _prizes(){
+  Widget _prizes() {
     return Container(
       padding: const EdgeInsets.only(top: 15),
       margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -58,7 +56,7 @@ class WebEmployeesOnePage extends StatelessWidget{
           physics: const NeverScrollableScrollPhysics(),
           itemCount: prizes.length,
           shrinkWrap: true,
-          itemBuilder: (ctx, item){
+          itemBuilder: (ctx, item) {
             return Column(
               children: [
                 PrizeCard(
@@ -66,65 +64,129 @@ class WebEmployeesOnePage extends StatelessWidget{
                   namePrize: prizes[item]['namePrize'],
                   textBodyPrize: prizes[item]['textBodyPrize'],
                 ),
-                Container(height: 15,)
+                Container(
+                  height: 15,
+                )
               ],
             );
           }),
     );
   }
 
-  Widget _allInfoEmployee(){
+  Widget _allInfoEmployee() {
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: const Color(0xFFF9F9F9)),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: const Color(0xFFF9F9F9)),
         child: Column(
           children: [
             _cardInfoEmployee(),
-            _cardInfoEmployee(name: 'Рабочий телефон',value: '8 (363) 22 22 22'),
-            _cardInfoEmployee(name: 'E-mail',value: 'O_L')
+            _cardInfoEmployee(
+                name: 'Рабочий телефон', value: '8 (363) 22 22 22'),
+            _cardInfoEmployee(name: 'E-mail', value: 'O_L')
           ],
-        )
-    );
+        ));
   }
 
-  Widget _cardInfoEmployee({String name = 'Мобильный номер',String value = '8 (961) 295 22 72'}){
+  Widget _cardInfoEmployee(
+      {String name = 'Мобильный номер', String value = '8 (961) 295 22 72'}) {
     return Container(
       padding: const EdgeInsets.all(24),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(name,style: const TextStyle(fontWeight: FontWeight.w700,color: blackTextPSB,fontSize: 16,fontFamily: 'Gilroy'),),
-          Text(value,style: const TextStyle(fontWeight: FontWeight.w700,color: blackTextPSB,fontSize: 16,fontFamily: 'Gilroy'),),
+          Text(
+            name,
+            style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                color: blackTextPSB,
+                fontSize: 16,
+                fontFamily: 'Gilroy'),
+          ),
+          Text(
+            value,
+            style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                color: blackTextPSB,
+                fontSize: 16,
+                fontFamily: 'Gilroy'),
+          ),
         ],
       ),
     );
   }
 
   //строчка с фото
-  Widget _rowPhoto(BuildContext context){
+  Widget _rowPhoto(BuildContext context) {
     return Row(
       children: [
-        IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.arrow_back_ios_rounded,color: blackTextPSB,size: 23,)),
+        IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_rounded,
+              color: blackTextPSB,
+              size: 23,
+            )),
         const Spacer(),
-        SizedBox(width: 130,height: 130,child: Image.asset('assets/imageMyContactPhoto.png',fit: BoxFit.fill,)),
+        SizedBox(
+            width: 130,
+            height: 130,
+            child: Image.asset(
+              'assets/imageMyContactPhoto.png',
+              fit: BoxFit.fill,
+            )),
         const Spacer(),
-        IconButton(onPressed: (){}, icon: const Icon(Icons.settings,color: lightBlackTextPSB,size: 23,))
+        IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.settings,
+              color: lightBlackTextPSB,
+              size: 23,
+            ))
       ],
     );
   }
 
   //строчка со статистикой
-  Widget _rowStatistics(){
+  Widget _rowStatistics() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _statisticsBox(),
-        _statisticsBox(color: const Color(0xFF50A8FF),countBal: 'Дизайн',lable: 'проект',icon: const Icon(CupertinoIcons.book,color: Color(0xFF50A8FF),size: 26,)),
-        _statisticsBox(color: const Color(0xFF4DC591),countBal: 'Полная',lable: 'занятость',icon: const Icon(Icons.star_border,color: Color(0xFF4DC591),size: 26,)),
-      ],);
+        _statisticsBox(
+            color: const Color(0xFF50A8FF),
+            countBal: 'Дизайн',
+            lable: 'проект',
+            icon: const Icon(
+              CupertinoIcons.book,
+              color: Color(0xFF50A8FF),
+              size: 26,
+            )),
+        _statisticsBox(
+            color: const Color(0xFF4DC591),
+            countBal: 'Полная',
+            lable: 'занятость',
+            icon: const Icon(
+              Icons.star_border,
+              color: Color(0xFF4DC591),
+              size: 26,
+            )),
+      ],
+    );
   }
 
   //котейнер со статистикой
-  Widget _statisticsBox({Color color = const Color(0xFFFF7648),String countBal = '01.11.21',String lable = 'Дата найма',Icon icon = const Icon(Icons.star_border,color: orangePSB,size: 26,)}){
+  Widget _statisticsBox(
+      {Color color = const Color(0xFFFF7648),
+      String countBal = '01.11.21',
+      String lable = 'Дата найма',
+      Icon icon = const Icon(
+        Icons.star_border,
+        color: orangePSB,
+        size: 26,
+      )}) {
     return Container(
       child: Column(
         children: [
@@ -135,12 +197,32 @@ class WebEmployeesOnePage extends StatelessWidget{
               shape: BoxShape.circle,
               color: color.withOpacity(0.1),
             ),
-            child: Center(child: icon,),
+            child: Center(
+              child: icon,
+            ),
           ),
-          Container(height: 8,),
-          Text(countBal,style: const TextStyle(color: blackTextPSB,fontSize: 20,fontFamily: 'Gilroy',fontWeight: FontWeight.w400),),
-          Container(height: 8,),
-          Text(lable,style: const TextStyle(color: lightBlackTextPSB,fontSize: 14,fontFamily: 'Gilroy',fontWeight: FontWeight.w400),),
+          Container(
+            height: 8,
+          ),
+          Text(
+            countBal,
+            style: const TextStyle(
+                color: blackTextPSB,
+                fontSize: 20,
+                fontFamily: 'Gilroy',
+                fontWeight: FontWeight.w400),
+          ),
+          Container(
+            height: 8,
+          ),
+          Text(
+            lable,
+            style: const TextStyle(
+                color: lightBlackTextPSB,
+                fontSize: 14,
+                fontFamily: 'Gilroy',
+                fontWeight: FontWeight.w400),
+          ),
         ],
       ),
     );
@@ -154,33 +236,55 @@ class WebEmployeesOnePage extends StatelessWidget{
         children: [
           //строчка с фото
           _rowPhoto(context),
-          Container(height: 20,),
-          Text(psbEmployee.name,style: const TextStyle(fontWeight: FontWeight.w500,fontFamily: 'Gilroy',fontSize: 24,color: blackTextPSB),),
-          Text('Product Designer',style: const TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 14,color: lightBlackTextPSB),),
-          Container(height: 20,),
+          Container(
+            height: 20,
+          ),
+          Text(
+            psbEmployee.name,
+            style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Gilroy',
+                fontSize: 24,
+                color: blackTextPSB),
+          ),
+          Text(
+            'Product Designer',
+            style: const TextStyle(
+                fontWeight: FontWeight.w400,
+                fontFamily: 'Gilroy',
+                fontSize: 14,
+                color: lightBlackTextPSB),
+          ),
+          Container(
+            height: 20,
+          ),
           //строчка со статистикой
           _rowStatistics(),
-          Container(height: 20,),
+          Container(
+            height: 20,
+          ),
         ],
       ),
     );
   }
 
   Widget _rightBody() {
-    return TaskManageWidget(employeeID: id,);
+    return TaskManageWidget(
+      employeeID: id,
+    );
   }
-
-
 }
 
-class BoxEmployee extends StatelessWidget{
+class BoxEmployee extends StatelessWidget {
   final String imageContact;
 
   final String nameContact;
 
   final String positionContact;
+
   //сколько процентов проголосовало
   final String percent;
+
   //количество звезд
   final int intStar;
 
@@ -199,7 +303,9 @@ class BoxEmployee extends StatelessWidget{
       hoverColor: Colors.white,
       child: Container(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(border: Border.all(color: const Color(0xFFEFF2F5),width: 2),borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(
+            border: Border.all(color: const Color(0xFFEFF2F5), width: 2),
+            borderRadius: BorderRadius.circular(8)),
         child: Column(
           children: [
             Container(
@@ -222,7 +328,9 @@ class BoxEmployee extends StatelessWidget{
                   Column(
                     children: [
                       _tegTaskOrange(2),
-                      Container(height: 10,),
+                      Container(
+                        height: 10,
+                      ),
                       _tegTaskGreen(),
                     ],
                   ),
@@ -238,35 +346,53 @@ class BoxEmployee extends StatelessWidget{
   }
 
   //тег с отображением количкства задач для сотрудника
-  Widget _tegTaskOrange(int countTask){
+  Widget _tegTaskOrange(int countTask) {
     return Container(
       decoration: BoxDecoration(
         color: orangePSB,
         borderRadius: BorderRadius.circular(5),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 2),
-      child: Text(countTask.toString() + ' задачи',style: TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 13,color: Colors.white),),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      child: Text(
+        countTask.toString() + ' задачи',
+        style: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontFamily: 'Gilroy',
+            fontSize: 13,
+            color: Colors.white),
+      ),
     );
   }
 
   //тег с обавлением задач для сотрудника
-  Widget _tegTaskGreen(){
+  Widget _tegTaskGreen() {
     return Container(
       decoration: BoxDecoration(
         color: greenPSB,
         borderRadius: BorderRadius.circular(5),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
       child: Row(
         children: [
-          Icon(Icons.add,color: Colors.white,size: 8,),
-          const Text(' добавить',style: TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 13,color: Colors.white),),
+          Icon(
+            Icons.add,
+            color: Colors.white,
+            size: 8,
+          ),
+          const Text(
+            ' добавить',
+            style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontFamily: 'Gilroy',
+                fontSize: 13,
+                color: Colors.white),
+          ),
         ],
       ),
     );
   }
 
-  Widget _progress(){
+  Widget _progress() {
     //переводим дробное в проценты
     final double percentConvert = double.tryParse(percent)! * 100;
     //округляем
@@ -275,7 +401,14 @@ class BoxEmployee extends StatelessWidget{
       height: 30,
       child: Row(
         children: [
-          Text(percentConvertString + '%',style: const TextStyle(color: blackTextPSB,fontSize: 19,fontFamily: 'Gilroy',fontWeight: FontWeight.w400),),
+          Text(
+            percentConvertString + '%',
+            style: const TextStyle(
+                color: blackTextPSB,
+                fontSize: 19,
+                fontFamily: 'Gilroy',
+                fontWeight: FontWeight.w400),
+          ),
           Expanded(child: _boxProgress())
         ],
       ),
@@ -283,7 +416,7 @@ class BoxEmployee extends StatelessWidget{
   }
 
   //плашка с заполнением цветом контейнера показывающая прогресс
-  Widget _boxProgress(){
+  Widget _boxProgress() {
     return LinearPercentIndicator(
       linearStrokeCap: LinearStrokeCap.butt,
       width: 200.0,
@@ -295,22 +428,32 @@ class BoxEmployee extends StatelessWidget{
   }
 
   //центральная часть с именем и должностью
-  Widget _nameAndPosition(){
+  Widget _nameAndPosition() {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(nameContact,style: const TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 16,color: blackTextPSB),),
+          Text(
+            nameContact,
+            style: const TextStyle(
+                fontWeight: FontWeight.w400,
+                fontFamily: 'Gilroy',
+                fontSize: 16,
+                color: blackTextPSB),
+          ),
           Text(
             positionContact,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 14,color: lightBlackTextPSB),
+            style: const TextStyle(
+                fontWeight: FontWeight.w400,
+                fontFamily: 'Gilroy',
+                fontSize: 14,
+                color: lightBlackTextPSB),
           ),
         ],
       ),
     );
   }
-
 }

@@ -8,17 +8,19 @@ import 'package:flutter_app_digital_finals/themes/colors.dart';
 
 import '../../router.dart';
 
-class CustomAppBar extends StatelessWidget{
+class CustomAppBar extends StatelessWidget {
   //высота аппбара
   final double? height;
+
   //текст внутри аппбара
   final String? description;
+
   //что будет под аппбаром
   final SliverChildBuilderDelegate sliverChildBuilderDelegate;
+
   //текстовый контроллер относится к поисковой форме
   final TextEditingController controllerSearch;
   final PsbEmployee psbEmployee;
-
 
   CustomAppBar({
     this.height,
@@ -36,8 +38,7 @@ class CustomAppBar extends StatelessWidget{
           textStyle: MaterialStateProperty.all(
             const TextStyle(color: Colors.white),
           ),
-          foregroundColor:
-          MaterialStateProperty.all(Colors.white),
+          foregroundColor: MaterialStateProperty.all(Colors.white),
           side: MaterialStateProperty.all(
             const BorderSide(
               color: Colors.orange,
@@ -60,12 +61,12 @@ class CustomAppBar extends StatelessWidget{
         slivers: <Widget>[
           ExtendedSliverAppbar(
             onBuild: (
-                BuildContext context,
-                double shrinkOffset,
-                double? minExtent,
-                double maxExtent,
-                bool overlapsContent,
-                ) {
+              BuildContext context,
+              double shrinkOffset,
+              double? minExtent,
+              double maxExtent,
+              bool overlapsContent,
+            ) {
               if (shrinkOffset > 0) {
                 // onBuildController.sink.add(null);
               }
@@ -82,17 +83,17 @@ class CustomAppBar extends StatelessWidget{
               style: const TextStyle(color: Colors.white),
               child: Container(
                 decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: arrowRightPSB.withOpacity(0.2),
-                      spreadRadius: 3,
-                      blurRadius: 4
-                    ),
-                  ],
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.only(bottomRight: Radius.circular(25),bottomLeft: Radius.circular(25))
-                ),
-                padding: const EdgeInsets.only(left: 40,right: 40,top: 40),
+                    boxShadow: [
+                      BoxShadow(
+                          color: arrowRightPSB.withOpacity(0.2),
+                          spreadRadius: 3,
+                          blurRadius: 4),
+                    ],
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.only(
+                        bottomRight: Radius.circular(25),
+                        bottomLeft: Radius.circular(25))),
+                padding: const EdgeInsets.only(left: 40, right: 40, top: 40),
                 margin: const EdgeInsets.only(bottom: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,30 +101,64 @@ class CustomAppBar extends StatelessWidget{
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Привет, ' + psbEmployee.name,style: const TextStyle(color: Colors.black,fontWeight: FontWeight.w700,fontFamily: 'Gilroy',fontSize: 22),),
-                        IconButton(onPressed: (){}, icon: const Icon(Icons.notifications_none,size: 23,color: Color(0xFF84848E),)),
-                        IconButton(onPressed: (){ FirebaseAuth.instance.signOut(); Navigator.pushNamed(context, RouteNames.loginScreen); }, icon: const Icon(Icons.logout,size: 23,color: Color(0xFF84848E),)),
+                        Text(
+                          'Привет, ' + psbEmployee.name,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'Gilroy',
+                              fontSize: 22),
+                        ),
+                        IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.notifications_none,
+                              size: 23,
+                              color: Color(0xFF84848E),
+                            )),
+                        IconButton(
+                            onPressed: () {
+                              FirebaseAuth.instance.signOut();
+                              Navigator.pushNamed(
+                                  context, RouteNames.loginScreen);
+                            },
+                            icon: const Icon(
+                              Icons.logout,
+                              size: 23,
+                              color: Color(0xFF84848E),
+                            )),
                       ],
                     ),
-                    Text(psbEmployee.group == 'LEAD' ? 'Наставник' : 'ПСБ рад видеть Вас в команде',
+                    Text(
+                        psbEmployee.group == 'LEAD'
+                            ? 'Наставник'
+                            : 'ПСБ рад видеть Вас в команде',
                         style: const TextStyle(
                             color: lightBlackTextPSB,
                             fontWeight: FontWeight.w400,
                             fontFamily: 'Gilroy',
-                            fontSize: 14
-                        )),
-                    SizedBox(height: 8,),
-                    psbEmployee.group == 'LEAD' ? Container() : Text(psbEmployee.group == 'LEAD' ? '' : 'У вас ${psbEmployee.mark} баллов',
-                        style: const TextStyle(
-                            color: lightBlackTextPSB,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'Gilroy',
-                            fontSize: 16
-                        )),
+                            fontSize: 14)),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    psbEmployee.group == 'LEAD'
+                        ? Container()
+                        : Text(
+                            psbEmployee.group == 'LEAD'
+                                ? ''
+                                : 'У вас ${psbEmployee.mark} баллов',
+                            style: const TextStyle(
+                                color: lightBlackTextPSB,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'Gilroy',
+                                fontSize: 16)),
                     Container(
                       height: 60,
-                      margin: const EdgeInsets.only(top: 15,bottom: 20),
-                      child: SearchInput(controller: controllerSearch,label: 'Поиск',),
+                      margin: const EdgeInsets.only(top: 15, bottom: 20),
+                      child: SearchInput(
+                        controller: controllerSearch,
+                        label: 'Поиск',
+                      ),
                     ),
                   ],
                 ),
@@ -144,7 +179,6 @@ class CustomAppBar extends StatelessWidget{
       ),
     );
   }
-
 }
 
 class FollowButton extends StatefulWidget {
@@ -157,6 +191,7 @@ class FollowButton extends StatefulWidget {
 
 class _FollowButtonState extends State<FollowButton> {
   bool showFollowButton = false;
+
   @override
   void initState() {
     super.initState();

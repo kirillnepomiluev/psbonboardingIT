@@ -48,21 +48,18 @@ class MainCollapsingToolbar extends StatefulWidget {
       : super(key: key);
 
   @override
-  _MainCollapsingToolbarState createState() =>
-      _MainCollapsingToolbarState();
+  _MainCollapsingToolbarState createState() => _MainCollapsingToolbarState();
 }
 
 class _MainCollapsingToolbarState extends State<MainCollapsingToolbar>
     with SingleTickerProviderStateMixin {
-
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           SliverOverlapAbsorber(
-            handle:
-                NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
           ),
           _getSliverAppBar(),
           _getSliverUnderAppBar(),
@@ -88,8 +85,7 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar>
           fontFamily: 'Roboto',
           fontStyle: FontStyle.normal,
           fontWeight: FontWeight.w500,
-          fontSize: 16)
-      /*Theme.of(context).tabBarTheme.labelStyle*/,
+          fontSize: 16) /*Theme.of(context).tabBarTheme.labelStyle*/,
       tabs: stringToTabs(widget.headers),
     );
   }
@@ -99,23 +95,23 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar>
       color: Colors.grey,
       child: SafeArea(
         child: (widget.pages!.length > 1)
-          ? TabBarView(
-              controller: widget.tabcontroller,
-              children: widget.pages!
-                .map(
-                  (page) => SafeArea(
-                    top: true,
-                    bottom: false,
-                    child: Builder(
-                      builder: (context) {
-                        return _buildTabBarView(context, page);
-                      },
-                    ),
-                  ),
-                )
-                .toList(),
-            )
-          : widget.pages![0],
+            ? TabBarView(
+                controller: widget.tabcontroller,
+                children: widget.pages!
+                    .map(
+                      (page) => SafeArea(
+                        top: true,
+                        bottom: false,
+                        child: Builder(
+                          builder: (context) {
+                            return _buildTabBarView(context, page);
+                          },
+                        ),
+                      ),
+                    )
+                    .toList(),
+              )
+            : widget.pages![0],
       ),
     );
   }
@@ -134,14 +130,11 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar>
         color: Colors.blue,
       ),
       backgroundColor: Colors.blue,
-
       leadingWidth: 51,
       leading: _getLogo(),
-
       expandedHeight: widget.expandleHeight,
       pinned: true,
       shadowColor: Colors.blue,
-
       flexibleSpace: FlexibleSpaceBarMy(
         background: widget.background!,
         fadeStart: widget.profile,
@@ -195,12 +188,10 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar>
     }
 
     if (widget.pages!.length > 1) {
-      return _SliverAppBarDelegate(
-        _getTabBar(),
-        extentHeight: widget.extentTabBarHeight,
-        profile: widget.profile,
-        profilePatient: widget.profilePatient
-      );
+      return _SliverAppBarDelegate(_getTabBar(),
+          extentHeight: widget.extentTabBarHeight,
+          profile: widget.profile,
+          profilePatient: widget.profilePatient);
     }
 
     return _SliverSingleTabDelegate();
@@ -216,10 +207,7 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar>
       margin: const EdgeInsets.only(right: 35),
       child: Text(
         widget.titleMain!,
-        style: const TextStyle(
-          fontSize: 17,
-          color: Colors.black
-        ),
+        style: const TextStyle(fontSize: 17, color: Colors.black),
       ),
     );
   }
@@ -247,7 +235,10 @@ class _MainCollapsingToolbarState extends State<MainCollapsingToolbar>
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate(this._tabBar,
-      {this.extentHeight = 0, this.empty = false, this.profile = false, this.profilePatient= false});
+      {this.extentHeight = 0,
+      this.empty = false,
+      this.profile = false,
+      this.profilePatient = false});
 
   final TabBar _tabBar;
   final int extentHeight;
@@ -271,7 +262,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         : Container(
             height: _tabBar.preferredSize.height + extentHeight + 1,
             decoration: BoxDecoration(
-                color: fonColorAppBar(profile,profilePatient),
+                color: fonColorAppBar(profile, profilePatient),
                 borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(24),
                     bottomRight: Radius.circular(24))),
@@ -291,10 +282,10 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           );
   }
 
-  Color fonColorAppBar(bool profile, bool patientProfile){
-    if( profile == false && patientProfile == true) {
+  Color fonColorAppBar(bool profile, bool patientProfile) {
+    if (profile == false && patientProfile == true) {
       return Colors.green;
-    } else if(profile == true) {
+    } else if (profile == true) {
       return Colors.transparent;
     } else {
       return Colors.white;
@@ -352,7 +343,8 @@ class _SliverSingleTabDelegate extends SliverPersistentHeaderDelegate {
   _SliverSingleTabDelegate();
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       child: null,
     );

@@ -6,6 +6,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 class RatingRow extends StatelessWidget {
   //сколько процентов проголосовало
   final String percent;
+
   //количество звезд
   final int intStar;
 
@@ -25,7 +26,14 @@ class RatingRow extends StatelessWidget {
       height: 30,
       child: Row(
         children: [
-          Text(percentConvertString + '%',style: const TextStyle(color: blackTextPSB,fontSize: 19,fontFamily: 'Gilroy',fontWeight: FontWeight.w400),),
+          Text(
+            percentConvertString + '%',
+            style: const TextStyle(
+                color: blackTextPSB,
+                fontSize: 19,
+                fontFamily: 'Gilroy',
+                fontWeight: FontWeight.w400),
+          ),
           Expanded(child: _rowStar(intStar)),
           _boxProgress()
         ],
@@ -34,22 +42,40 @@ class RatingRow extends StatelessWidget {
   }
 
   //плашка с 5 звездами
-  Widget _rowStar(int star){
+  Widget _rowStar(int star) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(width: 15,),
-        Icon(Icons.star,size: 23,color: star > 0 ? starPSB : noActiveStarPSB),
-        Icon(Icons.star,size: 23,color: star > 1 ? starPSB : noActiveStarPSB,),
-        Icon(Icons.star,size: 23,color: star > 2 ? starPSB : noActiveStarPSB,),
-        Icon(Icons.star,size: 23,color: star > 3 ? starPSB : noActiveStarPSB,),
-        Icon(Icons.star,size: 23,color: star > 4 ? starPSB : noActiveStarPSB,)
+        Container(
+          width: 15,
+        ),
+        Icon(Icons.star, size: 23, color: star > 0 ? starPSB : noActiveStarPSB),
+        Icon(
+          Icons.star,
+          size: 23,
+          color: star > 1 ? starPSB : noActiveStarPSB,
+        ),
+        Icon(
+          Icons.star,
+          size: 23,
+          color: star > 2 ? starPSB : noActiveStarPSB,
+        ),
+        Icon(
+          Icons.star,
+          size: 23,
+          color: star > 3 ? starPSB : noActiveStarPSB,
+        ),
+        Icon(
+          Icons.star,
+          size: 23,
+          color: star > 4 ? starPSB : noActiveStarPSB,
+        )
       ],
     );
   }
 
   //плашка с заполнением цветом контейнера показывающая прогресс
-  Widget _boxProgress(){
+  Widget _boxProgress() {
     return LinearPercentIndicator(
       linearStrokeCap: LinearStrokeCap.butt,
       width: 200.0,
@@ -59,5 +85,4 @@ class RatingRow extends StatelessWidget {
       progressColor: lightBlackTextPSB,
     );
   }
-
 }

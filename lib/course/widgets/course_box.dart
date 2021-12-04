@@ -19,9 +19,9 @@ class BoxCourse extends StatelessWidget {
     return kIsWeb ? _web(context) : _app(context);
   }
 
-  Widget _web(BuildContext context){
+  Widget _web(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => ProjectPage(
@@ -32,28 +32,43 @@ class BoxCourse extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.only(bottom: 12),
-        margin: const  EdgeInsets.only(bottom: 15),
+        margin: const EdgeInsets.only(bottom: 15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: const Color(0xffEFF2F5),width: 1),
+          border: Border.all(color: const Color(0xffEFF2F5), width: 1),
           color: Colors.white,
         ),
         child: Row(
           children: [
             Expanded(
               flex: 1,
-              child: Image.asset('assets/imageHeaderCourse.png',fit: BoxFit.fill,),
+              child: Image.asset(
+                'assets/imageHeaderCourse.png',
+                fit: BoxFit.fill,
+              ),
             ),
             Expanded(
               flex: 3,
               child: Container(
-                margin: const EdgeInsets.only(left: 12,right: 12),
+                margin: const EdgeInsets.only(left: 12, right: 12),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(project.projectName,style: const TextStyle(color: blackTextPSB,fontSize: 14,fontFamily: 'Gilroy',fontWeight: FontWeight.w400),),
-                    Text(project.nameSection,style: const TextStyle(color: lightBlackTextPSB,fontSize: 13,fontFamily: 'Gilroy',fontWeight: FontWeight.w400)),
+                    Text(
+                      project.projectName,
+                      style: const TextStyle(
+                          color: blackTextPSB,
+                          fontSize: 14,
+                          fontFamily: 'Gilroy',
+                          fontWeight: FontWeight.w400),
+                    ),
+                    Text(project.nameSection,
+                        style: const TextStyle(
+                            color: lightBlackTextPSB,
+                            fontSize: 13,
+                            fontFamily: 'Gilroy',
+                            fontWeight: FontWeight.w400)),
                     _rowProgressAndRating()
                   ],
                 ),
@@ -65,10 +80,9 @@ class BoxCourse extends StatelessWidget {
     );
   }
 
-
-  Widget _app(BuildContext context){
+  Widget _app(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => ProjectPage(
@@ -81,25 +95,40 @@ class BoxCourse extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: const Color(0xffEFF2F5),width: 1),
+          border: Border.all(color: const Color(0xffEFF2F5), width: 1),
           color: Colors.white,
         ),
         child: Column(
           children: [
             Expanded(
               flex: 2,
-              child: Image.asset('assets/imageHeaderCourse.png',fit: BoxFit.fill,),
+              child: Image.asset(
+                'assets/imageHeaderCourse.png',
+                fit: BoxFit.fill,
+              ),
             ),
             Expanded(
               flex: 1,
               child: Container(
-                margin: const EdgeInsets.only(left: 12,right: 12),
+                margin: const EdgeInsets.only(left: 12, right: 12),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(project.projectName,style: const TextStyle(color: blackTextPSB,fontSize: 14,fontFamily: 'Gilroy',fontWeight: FontWeight.w400),),
-                    Text(project.nameSection,style: const TextStyle(color: lightBlackTextPSB,fontSize: 13,fontFamily: 'Gilroy',fontWeight: FontWeight.w400)),
+                    Text(
+                      project.projectName,
+                      style: const TextStyle(
+                          color: blackTextPSB,
+                          fontSize: 14,
+                          fontFamily: 'Gilroy',
+                          fontWeight: FontWeight.w400),
+                    ),
+                    Text(project.nameSection,
+                        style: const TextStyle(
+                            color: lightBlackTextPSB,
+                            fontSize: 13,
+                            fontFamily: 'Gilroy',
+                            fontWeight: FontWeight.w400)),
                     _rowProgressAndRating()
                   ],
                 ),
@@ -112,7 +141,7 @@ class BoxCourse extends StatelessWidget {
   }
 
   //строчка с прогрессом и рейтингом
-  Widget _rowProgressAndRating(){
+  Widget _rowProgressAndRating() {
     //переводим дробное в проценты
     final double percentConvert = double.tryParse(project.progress)! * 100;
     //округляем
@@ -120,16 +149,23 @@ class BoxCourse extends StatelessWidget {
 
     return Row(
       children: [
-        Text(percentConvertString + '%',style: const TextStyle(color: lightBlackTextPSB,fontSize: 10,fontFamily: 'Gilroy',fontWeight: FontWeight.w500),),
+        Text(
+          percentConvertString + '%',
+          style: const TextStyle(
+              color: lightBlackTextPSB,
+              fontSize: 10,
+              fontFamily: 'Gilroy',
+              fontWeight: FontWeight.w500),
+        ),
         Expanded(child: _boxProgress()),
-        const Icon(Icons.star,color: starPSB,size: 9),
-      //  Text(project.ratingProject,style: const TextStyle(color: lightBlackTextPSB,fontSize: 10,fontFamily: 'Gilroy',fontWeight: FontWeight.w500),)
+        const Icon(Icons.star, color: starPSB, size: 9),
+        //  Text(project.ratingProject,style: const TextStyle(color: lightBlackTextPSB,fontSize: 10,fontFamily: 'Gilroy',fontWeight: FontWeight.w500),)
       ],
     );
   }
 
   //плашка с заполнением цветом контейнера показывающая прогресс
-  Widget _boxProgress(){
+  Widget _boxProgress() {
     return LinearPercentIndicator(
       lineHeight: 5.0,
       percent: double.tryParse(project.progress)!,
@@ -137,5 +173,4 @@ class BoxCourse extends StatelessWidget {
       progressColor: blueTextPSB,
     );
   }
-
 }

@@ -5,8 +5,10 @@ import 'package:flutter_app_digital_finals/themes/colors.dart';
 class BoxLesson extends StatelessWidget {
   //номер урока
   final String number;
+
   //название урока
   final String nameLesson;
+
   //продолжительность
   final String durationLesson;
 
@@ -33,13 +35,13 @@ class BoxLesson extends StatelessWidget {
               margin: const EdgeInsets.all(16),
               child: Center(
                   child: Text(
-                    number,
-                    style: const TextStyle(
-                        fontSize: 28,
-                        fontFamily: 'Gilroy',
-                        fontWeight: FontWeight.w400,
-                        color: blackTextPSB),
-                  )),
+                number,
+                style: const TextStyle(
+                    fontSize: 28,
+                    fontFamily: 'Gilroy',
+                    fontWeight: FontWeight.w400,
+                    color: blackTextPSB),
+              )),
             ),
             Expanded(
                 child: Container(

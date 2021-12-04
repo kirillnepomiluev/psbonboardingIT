@@ -33,39 +33,39 @@ List<String> prizeAssets = [
 // список задач(база)
 List<Map<String, dynamic>> tasks = [
   {
-    "time" : '10:00',
-    "online" : false,
-    "textTask" : 'Встретиться с Наставником',
-    "completed" : true,
+    "time": '10:00',
+    "online": false,
+    "textTask": 'Встретиться с Наставником',
+    "completed": true,
   },
   {
-    "time" : '11:00',
-    "online" : false,
-    "textTask" : 'Сдать документы в отдел кадров',
-    "completed" : false,
+    "time": '11:00',
+    "online": false,
+    "textTask": 'Сдать документы в отдел кадров',
+    "completed": false,
   },
   {
-    "time" : '14:00',
-    "online" : true,
-    "textTask" : 'Пройти 3 урока Онбординга',
-    "completed" : false,
+    "time": '14:00',
+    "online": true,
+    "textTask": 'Пройти 3 урока Онбординга',
+    "completed": false,
   },
   {
-    "time" : '15:00',
-    "online" : true,
-    "textTask" : 'Пройти тестирование',
-    "completed" : false,
+    "time": '15:00',
+    "online": true,
+    "textTask": 'Пройти тестирование',
+    "completed": false,
   },
   {
-    "time" : '15:00',
-    "online" : true,
-    "textTask" : 'Пройти тестирование',
-    "completed" : false,
+    "time": '15:00',
+    "online": true,
+    "textTask": 'Пройти тестирование',
+    "completed": false,
   }
 ];
 
 //главный экран
-class HomePage extends StatelessWidget{
+class HomePage extends StatelessWidget {
   //контроллер для поисковой строки
   TextEditingController searchController = TextEditingController();
 
@@ -77,30 +77,41 @@ class HomePage extends StatelessWidget{
     'assets/courseImageOne.png',
   ];
 
-
   @override
   Widget build(BuildContext context) {
-    PsbEmployee user = Provider.of<PsbEmployeeModelView>(context, listen: true).psbEmployee;
+    PsbEmployee user =
+        Provider.of<PsbEmployeeModelView>(context, listen: true).psbEmployee;
 
     final bool isLead = user.group == 'LEAD';
     final myScaffoldWeb = HomePageWeb();
 
-    return kIsWeb ? myScaffoldWeb : MyScaffold(body: _body(context,user,isLead), bottomNavigationActiveItem: AppBottomNavigationItem.main,isLead: isLead,appBottomNavigationItemLead: AppBottomNavigationItemLead.main,);
+    return kIsWeb
+        ? myScaffoldWeb
+        : MyScaffold(
+            body: _body(context, user, isLead),
+            bottomNavigationActiveItem: AppBottomNavigationItem.main,
+            isLead: isLead,
+            appBottomNavigationItemLead: AppBottomNavigationItemLead.main,
+          );
   }
 
-  Widget _body(BuildContext context,PsbEmployee user,bool isLead){
+  Widget _body(BuildContext context, PsbEmployee user, bool isLead) {
     //общий скафолд
     final child = SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-          return isLead ? _body2Lead(context) : _body2(context);
-        },
-        childCount: 1,
-      );
+      (BuildContext context, int index) {
+        return isLead ? _body2Lead(context) : _body2(context);
+      },
+      childCount: 1,
+    );
 
-    return CustomAppBar(sliverChildBuilderDelegate: child,controllerSearch: searchController,psbEmployee: user,);
+    return CustomAppBar(
+      sliverChildBuilderDelegate: child,
+      controllerSearch: searchController,
+      psbEmployee: user,
+    );
   }
 
-  Widget _body2(BuildContext context){
+  Widget _body2(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24),
       // height: MediaQuery.of(context).size.height * 1,
@@ -117,7 +128,7 @@ class HomePage extends StatelessWidget{
     );
   }
 
-  Widget _body2Lead(BuildContext context){
+  Widget _body2Lead(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24),
       // height: MediaQuery.of(context).size.height * 1,
@@ -131,7 +142,7 @@ class HomePage extends StatelessWidget{
   }
 
   //контенер с наградами
-  Widget _boxPrizes (){
+  Widget _boxPrizes() {
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
       height: 115,
@@ -143,9 +154,7 @@ class HomePage extends StatelessWidget{
               scrollDirection: Axis.horizontal,
               itemCount: prizeAssets.length,
               itemBuilder: (context, item) {
-                return prize(
-                  assets: prizeAssets[item]
-                );
+                return prize(assets: prizeAssets[item]);
               },
             ),
           )
@@ -155,17 +164,20 @@ class HomePage extends StatelessWidget{
   }
 
   // один приз
-  Widget prize({String assets = 'assets/prizeFourLog'}){
+  Widget prize({String assets = 'assets/prizeFourLog'}) {
     return Container(
-      margin: const EdgeInsets.only(right: 10),
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-      ),
-      child: Image.asset(assets,fit: BoxFit.fill,));
+        margin: const EdgeInsets.only(right: 10),
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+        ),
+        child: Image.asset(
+          assets,
+          fit: BoxFit.fill,
+        ));
   }
 
   // контерйнер с курсами
-  Widget _boxCourses (BuildContext context){
+  Widget _boxCourses(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
       height: 200,
@@ -179,7 +191,6 @@ class HomePage extends StatelessWidget{
       ),
     );
   }
-
 
   Widget allCourse(BuildContext context) {
     return ListView(
@@ -209,8 +220,22 @@ class HomePage extends StatelessWidget{
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Задачи по разработке',style: TextStyle(color: Colors.white,fontFamily: 'Gilroy',fontSize: 21,fontWeight: FontWeight.w400),),
-                  Text('Проект в Jira',style: TextStyle(color: Colors.white,fontFamily: 'Gilroy',fontSize: 16,fontWeight: FontWeight.w400),),
+                  Text(
+                    'Задачи по разработке',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Gilroy',
+                        fontSize: 21,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  Text(
+                    'Проект в Jira',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Gilroy',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  ),
                 ],
               )),
         ),
@@ -237,38 +262,55 @@ class HomePage extends StatelessWidget{
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Основная информация',style: TextStyle(color: Colors.white,fontFamily: 'Gilroy',fontSize: 21,fontWeight: FontWeight.w400),),
-                  Text('Проект в Сonfluense',style: TextStyle(color: Colors.white,fontFamily: 'Gilroy',fontSize: 16,fontWeight: FontWeight.w400),),
+                  Text(
+                    'Основная информация',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Gilroy',
+                        fontSize: 21,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  Text(
+                    'Проект в Сonfluense',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Gilroy',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  ),
                 ],
               )),
         ),
       ],
     );
   }
+
   //контейнер с задачами на сегодня
   Widget tasksList({bool islead = false}) {
     if (FirebaseAuth.instance.currentUser == null) {
       return Container();
     } else {
-
       return Container(
         margin: const EdgeInsets.only(bottom: 15),
         child: Column(
           children: [
             appTitle(title: 'Задачи на сегодня'),
             StreamBuilder(
-              stream:islead? store
-                  .collectionGroup("tasks")
-                  .where("creator", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                  .orderBy("time")
-                  .snapshots()
-                  : store.collection("users")
-                  .doc(FirebaseAuth.instance.currentUser!.uid)
-                  .collection("tasks")
-                  .orderBy("time").snapshots(),
+              stream: islead
+                  ? store
+                      .collectionGroup("tasks")
+                      .where("creator",
+                          isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                      .orderBy("time")
+                      .snapshots()
+                  : store
+                      .collection("users")
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection("tasks")
+                      .orderBy("time")
+                      .snapshots(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-
-                if(snapshot.hasError) {
+                if (snapshot.hasError) {
                   print(snapshot.error);
                 }
                 if (snapshot.hasData) {
@@ -279,7 +321,7 @@ class HomePage extends StatelessWidget{
                     itemCount: snapData.docs.length,
                     itemBuilder: (context, item) {
                       Map<String, dynamic> data =
-                      snapData.docs[item].data() as Map<String, dynamic>;
+                          snapData.docs[item].data() as Map<String, dynamic>;
 
                       int maxItem = snapData.docs.length;
 
@@ -288,7 +330,7 @@ class HomePage extends StatelessWidget{
                       bool nextCompleted = false;
                       if (!lastItem) {
                         nextCompleted = (snapData.docs[item + 1].data()
-                        as Map<String, dynamic>)["completed"];
+                            as Map<String, dynamic>)["completed"];
                       }
 
                       return BoxTask(
@@ -315,7 +357,4 @@ class HomePage extends StatelessWidget{
       );
     }
   }
-
-
 }
-

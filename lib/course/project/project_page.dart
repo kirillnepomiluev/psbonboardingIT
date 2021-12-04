@@ -41,8 +41,12 @@ class ProjectPage extends StatelessWidget {
     //сменяемые свайпом(вправо/влево экраны) каждый children = экран
     final tapBarView = TabBarView(
       children: [
-        ProjectSectionPage(sections: course.listSection,),
-        ProjectDiscussionsPage(reviews: course.listReviews,),
+        ProjectSectionPage(
+          sections: course.listSection,
+        ),
+        ProjectDiscussionsPage(
+          reviews: course.listReviews,
+        ),
         Container(),
       ],
     );
@@ -53,8 +57,17 @@ class ProjectPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(height: 10,),
-          Text(course.nameSection,style: const TextStyle(fontWeight: FontWeight.w500,color: blackTextPSB,fontFamily: 'Gilroy',fontSize: 24),),
+          Container(
+            height: 10,
+          ),
+          Text(
+            course.nameSection,
+            style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                color: blackTextPSB,
+                fontFamily: 'Gilroy',
+                fontSize: 24),
+          ),
           _stringCurator(),
           _tapBar(),
           Expanded(child: tapBarView),
@@ -69,12 +82,11 @@ class ProjectPage extends StatelessWidget {
             BoxShadow(
                 color: arrowRightPSB.withOpacity(0.2),
                 spreadRadius: 5,
-                blurRadius: 6
-            ),
+                blurRadius: 6),
           ],
           color: Colors.white,
-          borderRadius: const BorderRadius.only(topLeft: Radius.circular(25),topRight: Radius.circular(25))
-      ),
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(25), topRight: Radius.circular(25))),
       child: body,
     );
   }
@@ -85,13 +97,9 @@ class ProjectPage extends StatelessWidget {
       indicatorColor: orangePSB,
       unselectedLabelColor: blackTextPSB,
       labelStyle: TextStyle(
-          fontSize: 15,
-          fontFamily: 'Gilroy',
-          fontWeight: FontWeight.w500),
+          fontSize: 15, fontFamily: 'Gilroy', fontWeight: FontWeight.w500),
       unselectedLabelStyle: TextStyle(
-          fontSize: 15,
-          fontFamily: 'Gilroy',
-          fontWeight: FontWeight.w500),
+          fontSize: 15, fontFamily: 'Gilroy', fontWeight: FontWeight.w500),
       tabs: [
         Tab(
           text: 'Разделы',
@@ -107,37 +115,41 @@ class ProjectPage extends StatelessWidget {
   }
 
   // строчка с куратором
-  Widget _stringCurator(){
+  Widget _stringCurator() {
     return Container(
-        margin: const EdgeInsets.only(top: 10, bottom: 10),
-        child: Row(
-          children: [
-            const Text('Куратор: ',
-                style: TextStyle(
-                    color: lightBlackTextPSB,
-                    fontSize: 14,
-                    fontFamily: 'Gilroy',
-                    fontWeight: FontWeight.w400)),
-            TextButton(
-                child: Text(course.curatorName),
-                onPressed: () {},
-                style: TextButton.styleFrom(
-                    textStyle: const TextStyle(
-                        color: blackTextPSB,
-                        fontSize: 14,
-                        fontFamily: 'Gilroy',
-                        fontWeight: FontWeight.w400))),
-            Expanded(child: Container(),),
-            const Icon(CupertinoIcons.book,size: 16,color: blueTextPSB),
-            Container(width: 7,),
-            Text(course.listSection.length.toString() + ' Разделов', style: const TextStyle(
-                color: blackTextPSB,
-                fontSize: 14,
-                fontFamily: 'Gilroy',
-                fontWeight: FontWeight.w400)),
-          ],
-        ),
-      );
+      margin: const EdgeInsets.only(top: 10, bottom: 10),
+      child: Row(
+        children: [
+          const Text('Куратор: ',
+              style: TextStyle(
+                  color: lightBlackTextPSB,
+                  fontSize: 14,
+                  fontFamily: 'Gilroy',
+                  fontWeight: FontWeight.w400)),
+          TextButton(
+              child: Text(course.curatorName),
+              onPressed: () {},
+              style: TextButton.styleFrom(
+                  textStyle: const TextStyle(
+                      color: blackTextPSB,
+                      fontSize: 14,
+                      fontFamily: 'Gilroy',
+                      fontWeight: FontWeight.w400))),
+          Expanded(
+            child: Container(),
+          ),
+          const Icon(CupertinoIcons.book, size: 16, color: blueTextPSB),
+          Container(
+            width: 7,
+          ),
+          Text(course.listSection.length.toString() + ' Разделов',
+              style: const TextStyle(
+                  color: blackTextPSB,
+                  fontSize: 14,
+                  fontFamily: 'Gilroy',
+                  fontWeight: FontWeight.w400)),
+        ],
+      ),
+    );
   }
-
 }

@@ -3,12 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_digital_finals/themes/colors.dart';
 
 //вииджет для главной страницы (заголовок разделов моикурсы/мои награды)
-Widget appTitle({String title = 'Ваши курсы',}) {
+Widget appTitle({
+  String title = 'Ваши курсы',
+}) {
   return Row(
     children: [
-      Expanded(child: Text(title,style: TextStyle(fontSize: 20,fontFamily: 'Gilroy',fontWeight: FontWeight.w400,color: blackTextPSB),)),
-      TextButton(onPressed: (){}, child: const Text('Все',style: TextStyle(fontSize: 16,fontFamily: 'Gilroy',fontWeight: FontWeight.w400,color: blueTextPSB),),),
-      const Icon(Icons.arrow_forward_ios_outlined,color: arrowRightPSB,size: 16,),
+      Expanded(
+          child: Text(
+        title,
+        style: TextStyle(
+            fontSize: 20,
+            fontFamily: 'Gilroy',
+            fontWeight: FontWeight.w400,
+            color: blackTextPSB),
+      )),
+      TextButton(
+        onPressed: () {},
+        child: const Text(
+          'Все',
+          style: TextStyle(
+              fontSize: 16,
+              fontFamily: 'Gilroy',
+              fontWeight: FontWeight.w400,
+              color: blueTextPSB),
+        ),
+      ),
+      const Icon(
+        Icons.arrow_forward_ios_outlined,
+        color: arrowRightPSB,
+        size: 16,
+      ),
     ],
   );
 }
@@ -16,10 +40,10 @@ Widget appTitle({String title = 'Ваши курсы',}) {
 //виджет текстового поля (для поисковой строки)
 Widget TextFieldFilter(BuildContext context, BoxDecoration decoration,
     {String? hinttext,
-      TextEditingController? controller,
-      FocusNode? focusNode, // nullable
-      int minl = 1,
-      int maxl = 1}) {
+    TextEditingController? controller,
+    FocusNode? focusNode, // nullable
+    int minl = 1,
+    int maxl = 1}) {
   return Container(
     padding: const EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 0),
     decoration: decoration,
@@ -57,8 +81,3 @@ Widget TextFieldFilter(BuildContext context, BoxDecoration decoration,
     ),
   );
 }
-
-
-
-
-

@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app_digital_finals/auth/model/reward.dart';
 import 'package:flutter_app_digital_finals/home/widgets/all_widgets.dart';
@@ -9,18 +8,15 @@ import '../../main.dart';
 import '../../my_scaffold.dart';
 
 class RewardWidget extends StatefulWidget {
-
   final int mark;
 
   RewardWidget(this.mark);
 
   @override
   RewardWidgetState createState() => RewardWidgetState(mark);
-
 }
 
 class RewardWidgetState extends State<RewardWidget> {
-
   List<Widget> _rewards = [];
   int mark;
 
@@ -37,7 +33,9 @@ class RewardWidgetState extends State<RewardWidget> {
   Widget build(BuildContext context) {
     return MyScaffold(
       bodyRight: _rightBody(),
-      bodyCenter: Column(children: _rewards,),
+      bodyCenter: Column(
+        children: _rewards,
+      ),
       bodyLeft: _leftBody(),
     );
   }
@@ -61,7 +59,6 @@ class RewardWidgetState extends State<RewardWidget> {
     return home.boxTasksToday();
   }
 
-
   void getRewards() async {
     List<Reward> guideElements = [];
     await store.collection("rewards").get().then((querySnapshot) {
@@ -71,26 +68,39 @@ class RewardWidgetState extends State<RewardWidget> {
     });
     setState(() {
       guideElements.forEach((element) {
-        _rewards.add(
-            Row(
+        _rewards.add(Row(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.2,
+              width: MediaQuery.of(context).size.width * 0.2,
+              child: Image.asset(
+                'assets/imageHeaderCourse.png',
+                fit: BoxFit.fill,
+              ),
+            ),
+            Column(
               children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  child: Image.asset('assets/imageHeaderCourse.png',fit: BoxFit.fill,),
+                Text(
+                  element.reward,
+                  style: const TextStyle(
+                      color: blackTextPSB,
+                      fontSize: 22,
+                      fontFamily: 'Gilroy',
+                      fontWeight: FontWeight.w400),
                 ),
-                Column(
-                  children: [
-                    Text(element.reward, style: const TextStyle(color: blackTextPSB,fontSize: 22,fontFamily: 'Gilroy',fontWeight: FontWeight.w400),),
-                    Text(element.mark.toString() + " баллов", style: const TextStyle(color: blackTextPSB,fontSize: 17,fontFamily: 'Gilroy',fontWeight: FontWeight.w400),),
-                  ],
-                )
+                Text(
+                  element.mark.toString() + " баллов",
+                  style: const TextStyle(
+                      color: blackTextPSB,
+                      fontSize: 17,
+                      fontFamily: 'Gilroy',
+                      fontWeight: FontWeight.w400),
+                ),
               ],
             )
-        );
+          ],
+        ));
       });
-
     });
   }
-
 }

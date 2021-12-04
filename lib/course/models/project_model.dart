@@ -5,22 +5,27 @@ import 'package:flutter_app_digital_finals/course/models/section_model.dart';
 class Project {
   //название курса/проекта
   final String projectName;
+
   //тип проекта
   final String projectType;
+
   //цели и задачи проекта
   final String projectGoals;
+
   //мероприятия проекта (html-текст)
   final String projectActivities;
+
   //план работ и контрольные точки
   final Map<String, dynamic> projectPlan;
+
   //результаты проекта
   final String projectResult;
+
   //Команда проекта
   final List<dynamic> projectTeam;
+
   // инструменты, ключ - название, значение - ссылка (если есть)
   Map<String, dynamic> tools;
-
-
 
   Project(
       this.projectName,

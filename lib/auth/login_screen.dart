@@ -28,17 +28,38 @@ class LoginScreen extends StatelessWidget {
   }
 
   //виджет для веба
-  Widget _web(){
+  Widget _web() {
     return Row(
       children: [
-        Expanded(flex: 1,child: Column(
-          children: [
-            Expanded(child: Image.asset('assets/authWebImage.png')),
-            const Text('Добро пожаловать!',style: TextStyle(color: blackTextPSB, fontSize: 22, fontFamily: "Gilroy", fontWeight: FontWeight.w700, fontStyle: FontStyle.normal),),
-            Container(margin: const EdgeInsets.symmetric(horizontal: 150),child: const Text('Мы познакомим Вас с Промсвязьбанком, поможем адаптироваться в коллективе, изучить работу и функционал.',style: TextStyle(color: lightBlackTextPSB, fontSize: 14, fontFamily: "Gilroy", fontWeight: FontWeight.w400, fontStyle: FontStyle.normal))),
-            Container(height: 100,)
-          ],
-        )),
+        Expanded(
+            flex: 1,
+            child: Column(
+              children: [
+                Expanded(child: Image.asset('assets/authWebImage.png')),
+                const Text(
+                  'Добро пожаловать!',
+                  style: TextStyle(
+                      color: blackTextPSB,
+                      fontSize: 22,
+                      fontFamily: "Gilroy",
+                      fontWeight: FontWeight.w700,
+                      fontStyle: FontStyle.normal),
+                ),
+                Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 150),
+                    child: const Text(
+                        'Мы познакомим Вас с Промсвязьбанком, поможем адаптироваться в коллективе, изучить работу и функционал.',
+                        style: TextStyle(
+                            color: lightBlackTextPSB,
+                            fontSize: 14,
+                            fontFamily: "Gilroy",
+                            fontWeight: FontWeight.w400,
+                            fontStyle: FontStyle.normal))),
+                Container(
+                  height: 100,
+                )
+              ],
+            )),
         Expanded(
           flex: 1,
           child: Container(
@@ -48,7 +69,9 @@ class LoginScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _logo(),
-                Container(height: 50,),
+                Container(
+                  height: 50,
+                ),
                 const Text(
                   'Вход',
                   textAlign: TextAlign.left,
@@ -67,10 +90,28 @@ class LoginScreen extends StatelessWidget {
                       color: blackTextPSB,
                       fontWeight: FontWeight.w400),
                 ),
-                Container(height: 15,),
-                TextFormFieldForAuthPage(controller: _controllerLogin, label: 'Логин',isEye: false,),
-                Container(height: 25,),
-                TextFormFieldForAuthPage(controller: _controllerPassword, label: 'Пароль',icon: const Icon(CupertinoIcons.lock,color: blackTextPSB,size: 21,),obscureText: true,isEye: true,),
+                Container(
+                  height: 15,
+                ),
+                TextFormFieldForAuthPage(
+                  controller: _controllerLogin,
+                  label: 'Логин',
+                  isEye: false,
+                ),
+                Container(
+                  height: 25,
+                ),
+                TextFormFieldForAuthPage(
+                  controller: _controllerPassword,
+                  label: 'Пароль',
+                  icon: const Icon(
+                    CupertinoIcons.lock,
+                    color: blackTextPSB,
+                    size: 21,
+                  ),
+                  obscureText: true,
+                  isEye: true,
+                ),
                 Container(height: 10),
                 //текстовая кнопка забыли пароль
                 Row(
@@ -79,12 +120,19 @@ class LoginScreen extends StatelessWidget {
                     _textButton(),
                   ],
                 ),
-                Container(height: 25,),
-                Consumer<PsbEmployeeModelView>( builder: (context, value, child) {
-                  return             bigButton(
-                      text: 'Войти',onPressed: () async { await login(context, _controllerLogin.text, _controllerPassword.text, value); }
-                  );
-                },),
+                Container(
+                  height: 25,
+                ),
+                Consumer<PsbEmployeeModelView>(
+                  builder: (context, value, child) {
+                    return bigButton(
+                        text: 'Войти',
+                        onPressed: () async {
+                          await login(context, _controllerLogin.text,
+                              _controllerPassword.text, value);
+                        });
+                  },
+                ),
               ],
             ),
           ),
@@ -94,7 +142,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   //виджет для мобилки
-  Widget _app(){
+  Widget _app() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 35),
       child: Column(
@@ -102,7 +150,9 @@ class LoginScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _logo(),
-          Container(height: 50,),
+          Container(
+            height: 50,
+          ),
           const Text(
             'Вход',
             textAlign: TextAlign.left,
@@ -121,10 +171,28 @@ class LoginScreen extends StatelessWidget {
                 color: blackTextPSB,
                 fontWeight: FontWeight.w400),
           ),
-          Container(height: 15,),
-          TextFormFieldForAuthPage(controller: _controllerLogin, label: 'Логин',isEye: false,),
-          Container(height: 25,),
-          TextFormFieldForAuthPage(controller: _controllerPassword, label: 'Пароль',icon: const Icon(CupertinoIcons.lock,color: blackTextPSB,size: 21,),obscureText: true,isEye: true,),
+          Container(
+            height: 15,
+          ),
+          TextFormFieldForAuthPage(
+            controller: _controllerLogin,
+            label: 'Логин',
+            isEye: false,
+          ),
+          Container(
+            height: 25,
+          ),
+          TextFormFieldForAuthPage(
+            controller: _controllerPassword,
+            label: 'Пароль',
+            icon: const Icon(
+              CupertinoIcons.lock,
+              color: blackTextPSB,
+              size: 21,
+            ),
+            obscureText: true,
+            isEye: true,
+          ),
           Container(height: 10),
           //текстовая кнопка забыли пароль
           Row(
@@ -133,12 +201,19 @@ class LoginScreen extends StatelessWidget {
               _textButton(),
             ],
           ),
-          Container(height: 25,),
-          Consumer<PsbEmployeeModelView>( builder: (context, value, child) {
-            return             bigButton(
-                text: 'Войти',onPressed: () async { await login(context, _controllerLogin.text, _controllerPassword.text, value); }
-            );
-          },),
+          Container(
+            height: 25,
+          ),
+          Consumer<PsbEmployeeModelView>(
+            builder: (context, value, child) {
+              return bigButton(
+                  text: 'Войти',
+                  onPressed: () async {
+                    await login(context, _controllerLogin.text,
+                        _controllerPassword.text, value);
+                  });
+            },
+          ),
         ],
       ),
     );
@@ -159,9 +234,9 @@ class LoginScreen extends StatelessWidget {
   }
 
   //текстовая кнопка "Забыли пароль"
-  Widget _textButton(){
+  Widget _textButton() {
     return TextButton(
-        onPressed: (){},
+        onPressed: () {},
         child: const Text(
           'Забыли пароль',
           style: TextStyle(
@@ -169,26 +244,26 @@ class LoginScreen extends StatelessWidget {
               fontFamily: 'Gilroy',
               color: blueTextPSB,
               fontWeight: FontWeight.w400),
-        )
-    );
+        ));
   }
 
-  Future<void> login(BuildContext context, String email, String password, PsbEmployeeModelView employee) async {
+  Future<void> login(BuildContext context, String email, String password,
+      PsbEmployeeModelView employee) async {
     debugPrint("email $email login $login");
-  var persistance = FirebaseAuth.instance;
+    var persistance = FirebaseAuth.instance;
     persistance.setPersistence(Persistence.LOCAL);
 
-    persistance.signInWithEmailAndPassword(email: email, password: password)
+    persistance
+        .signInWithEmailAndPassword(email: email, password: password)
         .then((UserCredential value) async {
       if (value.user != null) {
         employee.getPsbEmployeeFromFirebase(value.user!.uid);
         Navigator.pushNamed(context, "/");
       }
-    })
-        .catchError((error) {
+    }).catchError((error) {
       debugPrint(error);
-          showToast("Авторизация не удалась!", Colors.red);
-        });
+      showToast("Авторизация не удалась!", Colors.red);
+    });
   }
 
   void showToast(message, Color color) {
@@ -201,5 +276,4 @@ class LoginScreen extends StatelessWidget {
         textColor: Colors.white,
         fontSize: 16.0);
   }
-
 }

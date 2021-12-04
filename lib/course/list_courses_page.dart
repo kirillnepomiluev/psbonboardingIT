@@ -43,7 +43,9 @@ class ListCoursesPage extends StatelessWidget {
       ),
     );
 
-    return MyScaffold(body: body, bottomNavigationActiveItem: AppBottomNavigationItem.courses);
+    return MyScaffold(
+        body: body,
+        bottomNavigationActiveItem: AppBottomNavigationItem.courses);
   }
 
   //апп бар
@@ -59,8 +61,7 @@ class ListCoursesPage extends StatelessWidget {
           BoxShadow(
               color: arrowRightPSB.withOpacity(0.2),
               spreadRadius: 8,
-              blurRadius: 8
-          ),
+              blurRadius: 8),
         ],
       ),
       child: Center(
@@ -69,33 +70,41 @@ class ListCoursesPage extends StatelessWidget {
           child: Row(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Мои курсы',style: TextStyle(
-                  fontSize: 22,
-                  fontFamily: 'Gilroy',
-                  fontWeight: FontWeight.w700),),
+              const Text(
+                'Мои курсы',
+                style: TextStyle(
+                    fontSize: 22,
+                    fontFamily: 'Gilroy',
+                    fontWeight: FontWeight.w700),
+              ),
               Expanded(child: Container()),
-              const Icon(CupertinoIcons.search,size: 25,),
-              Container(width: 9,),
-              const Icon(Icons.filter_alt_sharp,size: 25,),
+              const Icon(
+                CupertinoIcons.search,
+                size: 25,
+              ),
+              Container(
+                width: 9,
+              ),
+              const Icon(
+                Icons.filter_alt_sharp,
+                size: 25,
+              ),
             ],
           ),
         ),
       ),
     );
   }
+
   //навигационная панель
   Widget _tapBar() {
     return const TabBar(
       indicatorColor: orangePSB,
       unselectedLabelColor: blackTextPSB,
       labelStyle: TextStyle(
-          fontSize: 15,
-          fontFamily: 'Gilroy',
-          fontWeight: FontWeight.w400),
+          fontSize: 15, fontFamily: 'Gilroy', fontWeight: FontWeight.w400),
       unselectedLabelStyle: TextStyle(
-          fontSize: 15,
-          fontFamily: 'Gilroy',
-          fontWeight: FontWeight.w400),
+          fontSize: 15, fontFamily: 'Gilroy', fontWeight: FontWeight.w400),
       tabs: [
         Tab(
           text: 'Все',
@@ -112,11 +121,9 @@ class ListCoursesPage extends StatelessWidget {
 }
 
 //класс для отображения участников моей команды
-class ListAllCourse extends StatelessWidget{
-
+class ListAllCourse extends StatelessWidget {
   //список  курсов (база)
-  final Map<String, dynamic> _course =
-  {
+  final Map<String, dynamic> _course = {
     "ratingCurator": '0',
     "ratingProject": '0',
     "projectName": 'Back-проект',
@@ -124,7 +131,8 @@ class ListAllCourse extends StatelessWidget{
     "progress": '0.56',
     'curatorName': 'Лапенко Евгений',
     'startProject': false,
-    'descriptionProject': 'Мы познакомим Вас с Промсвязьбанком, поможем адаптироваться в коллективе, изучить работу и функционал.,Мы познакомим Вас с Промсвязьбанком, поможем адаптироваться в коллективе, изучить работу и функционал.',
+    'descriptionProject':
+        'Мы познакомим Вас с Промсвязьбанком, поможем адаптироваться в коллективе, изучить работу и функционал.,Мы познакомим Вас с Промсвязьбанком, поможем адаптироваться в коллективе, изучить работу и функционал.',
     'timeProject': '4 часа',
     'listReviews': [
       {
@@ -132,29 +140,29 @@ class ListAllCourse extends StatelessWidget{
         "nameContact": 'Анна Добрина',
         "positionContact": 'UX/UI designer',
         "timeLastMessage": '10:10',
-        "textReview": 'Одна из лучших особенностей архитектуры на основе компонентов заключается в том, что все можно рассматривать как компонент.',
+        "textReview":
+            'Одна из лучших особенностей архитектуры на основе компонентов заключается в том, что все можно рассматривать как компонент.',
       },
     ],
     'listSection': [
       {
         "completed": false,
         "insideSection": 'Лонгидрид',
-        "nameSection":  "Инстурменты",
-        "numberSection":  '01',
+        "nameSection": "Инстурменты",
+        "numberSection": '01',
       },
     ],
   };
 
   @override
   Widget build(BuildContext context) {
-
     final Course course = Course.fromMap(_course);
 
     final webWidget = ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: 1,
-        itemBuilder: (ctx, item){
+        itemBuilder: (ctx, item) {
           return Container(
             height: 160,
             child: BoxCourse(
@@ -163,21 +171,22 @@ class ListAllCourse extends StatelessWidget{
           );
         });
 
-    return kIsWeb ? webWidget : Container(
-      margin: const EdgeInsets.only(top: 15),
-      child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 190 / 200,
-              crossAxisSpacing: 15,
-              mainAxisSpacing: 15),
-          itemCount: 1,
-          itemBuilder: (ctx, item){
-            return BoxCourse(
-              project: course,
-            );
-          }),
-    );
+    return kIsWeb
+        ? webWidget
+        : Container(
+            margin: const EdgeInsets.only(top: 15),
+            child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 190 / 200,
+                    crossAxisSpacing: 15,
+                    mainAxisSpacing: 15),
+                itemCount: 1,
+                itemBuilder: (ctx, item) {
+                  return BoxCourse(
+                    project: course,
+                  );
+                }),
+          );
   }
-
 }

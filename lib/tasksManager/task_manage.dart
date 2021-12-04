@@ -30,17 +30,173 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
 
   int _radioValue1 = 0;
 
-
   @override
   Widget build(BuildContext context) {
     if (FirebaseAuth.instance.currentUser == null) {
       return Container();
     } else {
-      return kIsWeb ? SingleChildScrollView(
-        child: Column(
-          children: [
-            tasksList(widget.employeeID),
-            Container(
+      return kIsWeb
+          ? SingleChildScrollView(
+              child: Column(
+                children: [
+                  tasksList(widget.employeeID),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: const Color(0xFFF9F9F9),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Новая задача",
+                          style: TextStyle(
+                              color: blackTextPSB,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                              fontFamily: 'Gilroy'),
+                        ),
+                        Container(
+                          height: 8,
+                        ),
+                        _textField(
+                          labelText: "Описание",
+                          controller: controllerTaskName,
+                        ),
+                        Container(
+                          height: 8,
+                        ),
+                        CustomDateSelector(
+                          context,
+                          const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 0),
+                          "Выберите время делайна",
+                          _birthDate,
+                          _onBirthDateChanged,
+                          const BoxDecoration(color: Color(0xFFF9F9F9)),
+                        ),
+                        Container(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Задача online",
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontSize: 16,
+                                  color: blackTextPSB,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            CupertinoSwitch(
+                              activeColor: blueTextPSB,
+                              onChanged: (value) {
+                                setState(() {
+                                  taskOnline = value;
+                                });
+                              },
+                              value: taskOnline,
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const Text(
+                              "Кто закрывает задачу",
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontSize: 16,
+                                  color: blackTextPSB,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            Row(
+                              children: [
+                                Radio(
+                                  activeColor: orangePSB,
+                                  value: 0,
+                                  groupValue: _radioValue1,
+                                  onChanged: _handleRadioValueChange1,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    _handleRadioValueChange1(0);
+                                  },
+                                  child: const Text(
+                                    'Сотрудник',
+                                    style: TextStyle(fontSize: 16.0),
+                                  ),
+                                ),
+                                Radio(
+                                  activeColor: orangePSB,
+                                  value: 1,
+                                  groupValue: _radioValue1,
+                                  onChanged: _handleRadioValueChange1,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    _handleRadioValueChange1(1);
+                                  },
+                                  child: const Text(
+                                    'Настваник',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                ),
+                                Radio(
+                                  activeColor: orangePSB,
+                                  value: 2,
+                                  groupValue: _radioValue1,
+                                  onChanged: _handleRadioValueChange1,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    _handleRadioValueChange1(2);
+                                  },
+                                  child: const Text(
+                                    'Тест',
+                                    style: TextStyle(fontSize: 16.0),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Container(
+                          height: 10,
+                        ),
+                        bigButton(
+                            onPressed: () {
+                              store
+                                  .collection("users")
+                                  .doc(widget.employeeID)
+                                  .collection("tasks")
+                                  .add({
+                                'online': taskOnline,
+                                "textTask": controllerTaskName.text,
+                                "completed": false,
+                                "time": _birthDate,
+                                "closeType": _radioValue1 == 0
+                                    ? "employee"
+                                    : _radioValue1 == 1
+                                        ? "lead"
+                                        : "test",
+                                "creator":
+                                    FirebaseAuth.instance.currentUser!.uid,
+                                "employee": widget.employeeID,
+                              });
+                            },
+                            text: "Добавить")
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )
+          : Container(
+              margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
@@ -49,28 +205,46 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Новая задача",style: TextStyle(color: blackTextPSB,fontWeight: FontWeight.w400,fontSize: 20,fontFamily: 'Gilroy'),),
-                  Container(height: 8,),
+                  const Text(
+                    "Новая задача",
+                    style: TextStyle(
+                        color: blackTextPSB,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20,
+                        fontFamily: 'Gilroy'),
+                  ),
+                  Container(
+                    height: 8,
+                  ),
                   _textField(
                     labelText: "Описание",
                     controller: controllerTaskName,
                   ),
-                  Container(height: 8,),
+                  Container(
+                    height: 8,
+                  ),
                   CustomDateSelector(
                     context,
                     const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                     "Выберите время делайна",
                     _birthDate,
                     _onBirthDateChanged,
-                    const BoxDecoration(
-                      color: Color(0xFFF9F9F9)
-                    ),
+                    const BoxDecoration(color: Color(0xFFF9F9F9)),
                   ),
-                  Container(height: 10,),
+                  Container(
+                    height: 10,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Задача online",style: TextStyle(fontFamily: 'Gilroy',fontSize: 16,color: blackTextPSB,fontWeight: FontWeight.w400),),
+                      const Text(
+                        "Задача online",
+                        style: TextStyle(
+                            fontFamily: 'Gilroy',
+                            fontSize: 16,
+                            color: blackTextPSB,
+                            fontWeight: FontWeight.w400),
+                      ),
                       CupertinoSwitch(
                         activeColor: blueTextPSB,
                         onChanged: (value) {
@@ -84,61 +258,82 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
                   ),
                   Column(
                     children: [
-                      const Text("Кто закрывает задачу",style: TextStyle(fontFamily: 'Gilroy',fontSize: 16,color: blackTextPSB,fontWeight: FontWeight.w400),),
-                      Row(
+                      const Text(
+                        "Кто закрывает задачу",
+                        style: TextStyle(
+                            fontFamily: 'Gilroy',
+                            fontSize: 16,
+                            color: blackTextPSB,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Column(
                         children: [
-                          Radio(
-                            activeColor: orangePSB,
-                            value: 0,
-                            groupValue: _radioValue1,
-                            onChanged: _handleRadioValueChange1,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              _handleRadioValueChange1(0);
-                              },
-                            child: const Text(
-                              'Сотрудник',
-                              style: TextStyle(fontSize: 16.0),
-                            ),
-                          ),
-                          Radio(
-                            activeColor: orangePSB,
-                            value: 1,
-                            groupValue: _radioValue1,
-                            onChanged: _handleRadioValueChange1,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              _handleRadioValueChange1(1);
-                            },
-                            child: const Text(
-                              'Настваник',
-                              style:  TextStyle(
-                                fontSize: 16.0,
+                          Row(
+                            children: [
+                              Radio(
+                                activeColor: orangePSB,
+                                value: 0,
+                                groupValue: _radioValue1,
+                                onChanged: _handleRadioValueChange1,
                               ),
-                            ),
+                              InkWell(
+                                onTap: () {
+                                  _handleRadioValueChange1(0);
+                                },
+                                child: const Text(
+                                  'Сотрудник',
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
+                              ),
+                            ],
                           ),
-                          Radio(
-                             activeColor: orangePSB,
-                            value: 2,
-                            groupValue: _radioValue1,
-                            onChanged: _handleRadioValueChange1,
+                          Row(
+                            children: [
+                              Radio(
+                                activeColor: orangePSB,
+                                value: 1,
+                                groupValue: _radioValue1,
+                                onChanged: _handleRadioValueChange1,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  _handleRadioValueChange1(1);
+                                },
+                                child: const Text(
+                                  'Настваник',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          InkWell(
-                            onTap: () {
-                              _handleRadioValueChange1(2);
-                            },
-                            child: const Text(
-                              'Тест',
-                              style: TextStyle(fontSize: 16.0),
-                            ),
+                          Row(
+                            children: [
+                              Radio(
+                                activeColor: orangePSB,
+                                value: 2,
+                                groupValue: _radioValue1,
+                                onChanged: _handleRadioValueChange1,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  _handleRadioValueChange1(2);
+                                },
+                                child: const Text(
+                                  'Тест',
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ],
                   ),
-                  Container(height: 10,),
+                  Container(
+                    height: 10,
+                  ),
                   bigButton(
                       onPressed: () {
                         store
@@ -150,159 +345,32 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
                           "textTask": controllerTaskName.text,
                           "completed": false,
                           "time": _birthDate,
-                          "closeType" :  _radioValue1==0? "employee" : _radioValue1==1? "lead" : "test",
-                          "creator" : FirebaseAuth.instance.currentUser!.uid,
+                          "closeType": _radioValue1 == 0
+                              ? "employee"
+                              : _radioValue1 == 1
+                                  ? "lead"
+                                  : "test",
+                          "creator": FirebaseAuth.instance.currentUser!.uid,
                           "employee": widget.employeeID,
                         });
+
+                        Navigator.pop(context);
                       },
                       text: "Добавить")
                 ],
               ),
-            )
-          ],
-        ),
-      ) : Container(
-        margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: const Color(0xFFF9F9F9),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text("Новая задача",style: TextStyle(color: blackTextPSB,fontWeight: FontWeight.w400,fontSize: 20,fontFamily: 'Gilroy'),),
-            Container(height: 8,),
-            _textField(
-              labelText: "Описание",
-              controller: controllerTaskName,
-            ),
-            Container(height: 8,),
-            CustomDateSelector(
-              context,
-              const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-              "Выберите время делайна",
-              _birthDate,
-              _onBirthDateChanged,
-              const BoxDecoration(
-                  color: Color(0xFFF9F9F9)
-              ),
-            ),
-            Container(height: 10,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("Задача online",style: TextStyle(fontFamily: 'Gilroy',fontSize: 16,color: blackTextPSB,fontWeight: FontWeight.w400),),
-                CupertinoSwitch(
-                  activeColor: blueTextPSB,
-                  onChanged: (value) {
-                    setState(() {
-                      taskOnline = value;
-                    });
-                  },
-                  value: taskOnline,
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                const Text("Кто закрывает задачу",style: TextStyle(fontFamily: 'Gilroy',fontSize: 16,color: blackTextPSB,fontWeight: FontWeight.w400),),
-                Column(
-                  children: [
-                    Row(children: [
-                      Radio(
-                        activeColor: orangePSB,
-                        value: 0,
-                        groupValue: _radioValue1,
-                        onChanged: _handleRadioValueChange1,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          _handleRadioValueChange1(0);
-                        },
-                        child: const Text(
-                          'Сотрудник',
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                      ),
-                    ],),
-                    Row(children: [
-                      Radio(
-                        activeColor: orangePSB,
-                        value: 1,
-                        groupValue: _radioValue1,
-                        onChanged: _handleRadioValueChange1,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          _handleRadioValueChange1(1);
-                        },
-                        child: const Text(
-                          'Настваник',
-                          style:  TextStyle(
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ),
-                    ],),
-                    Row(
-                      children: [
-                        Radio(
-                          activeColor: orangePSB,
-                          value: 2,
-                          groupValue: _radioValue1,
-                          onChanged: _handleRadioValueChange1,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            _handleRadioValueChange1(2);
-                          },
-                          child: const Text(
-                            'Тест',
-                            style: TextStyle(fontSize: 16.0),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Container(height: 10,),
-            bigButton(
-                onPressed: () {
-                  store
-                      .collection("users")
-                      .doc(widget.employeeID)
-                      .collection("tasks")
-                      .add({
-                    'online': taskOnline,
-                    "textTask": controllerTaskName.text,
-                    "completed": false,
-                    "time": _birthDate,
-                    "closeType" :  _radioValue1==0? "employee" : _radioValue1==1? "lead" : "test",
-                    "creator" : FirebaseAuth.instance.currentUser!.uid,
-                    "employee": widget.employeeID,
-                  });
-
-                  Navigator.pop(context);
-                },
-                text: "Добавить")
-          ],
-        ),
-      );
+            );
     }
   }
 
   void _handleRadioValueChange1(int? value) {
     setState(() {
-      _radioValue1 = value?? -1;
+      _radioValue1 = value ?? -1;
     });
-
-
   }
 
-  Widget _textField({TextEditingController? controller,String labelText = 'Описание'}){
+  Widget _textField(
+      {TextEditingController? controller, String labelText = 'Описание'}) {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -339,12 +407,10 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
     });
   }
 
-
   Widget tasksList(String userID) {
     if (FirebaseAuth.instance.currentUser == null) {
       return Container();
     } else {
-
       return Container(
         margin: const EdgeInsets.only(bottom: 15),
         child: Column(
@@ -354,7 +420,8 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
               stream: store
                   .collection("users")
                   .doc(userID)
-                  .collection("tasks").orderBy("time")
+                  .collection("tasks")
+                  .orderBy("time")
                   .snapshots(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.hasData) {
@@ -416,8 +483,8 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
       child: InkWell(
         onTap: () {
           final firstDate = DateTime(DateTime.now().year - 100);
-          final lastDate = DateTime(DateTime.now().year - 18, DateTime.now().month, DateTime.now().day);
-
+          final lastDate = DateTime(DateTime.now().year - 18,
+              DateTime.now().month, DateTime.now().day);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -441,25 +508,18 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
                       dateMask: 'd MMM, yyyy',
                       initialValue: DateTime.now().toString(),
                       firstDate: DateTime.now(),
-                      lastDate: DateTime.now().add(Duration(days:60 )),
+                      lastDate: DateTime.now().add(Duration(days: 60)),
                       icon: Icon(Icons.event),
                       dateLabelText: 'Date',
                       timeLabelText: "Hour",
                       onChanged: (val) {
-                          callback( DateTime.tryParse(val)?? DateTime.now());
-
+                        callback(DateTime.tryParse(val) ?? DateTime.now());
                       },
-
-
-
-
-
                       validator: (val) {
                         print(val);
                         return null;
                       },
-                      onSaved: (val) => print(" timePicked  " +val.toString())
-                         ,
+                      onSaved: (val) => print(" timePicked  " + val.toString()),
                     ),
                   ),
                 ],
@@ -479,6 +539,4 @@ class _TaskManageWidgetState extends State<TaskManageWidget> {
 
     return DateFormat('dd MMMM yyyy', 'en_US').format(date);
   }
-
-
 }

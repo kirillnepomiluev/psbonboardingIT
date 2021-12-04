@@ -14,8 +14,10 @@ import 'package:flutter_app_digital_finals/themes/colors.dart';
 class BoxMentor extends StatelessWidget {
   //аватар ментора
   final String imageMentor;
+
   //имя ментора
   final String nameMentor;
+
   //должность ментора
   final String positionMentor;
 
@@ -40,13 +42,15 @@ class BoxMentor extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-                margin: const EdgeInsets.fromLTRB(0,16,16,16),
+                margin: const EdgeInsets.fromLTRB(0, 16, 16, 16),
                 child: Center(
                   child: CircleAvatar(
                       radius: 30,
-                      child: Image.asset(imageMentor,fit: BoxFit.fill,)),
-                )
-            ),
+                      child: Image.asset(
+                        imageMentor,
+                        fit: BoxFit.fill,
+                      )),
+                )),
             Expanded(
                 child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 15),

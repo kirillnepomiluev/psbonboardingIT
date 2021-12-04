@@ -8,12 +8,15 @@ import 'all_widgets.dart';
 class SearchInput extends StatefulWidget {
   //контроллер поиска
   final TextEditingController controller;
+
   //фокус на поле ввода
-  final FocusNode? focusNode;// nullable
+  final FocusNode? focusNode; // nullable
   // заголовок
   final String label;
+
   //высота поисковой строки
   double height;
+
   // проверка на белый цвет
   final bool searchFocusColorWhite;
 
@@ -42,7 +45,7 @@ class _SearchInputState extends State<SearchInput> {
   Color lineColor2 = Colors.grey;
 
   //поисковая строка в вебе
-  Widget _buildWeb(BuildContext context){
+  Widget _buildWeb(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 14),
       height: 70,
@@ -51,8 +54,12 @@ class _SearchInputState extends State<SearchInput> {
         onFocusChange: (focusNode) {
           if (focusNode) {
             setState(() {
-              bgColor = widget.searchFocusColorWhite == false ? Colors.blue : Colors.white;
-              lineColor = widget.searchFocusColorWhite == false ? Colors.white : Colors.grey;
+              bgColor = widget.searchFocusColorWhite == false
+                  ? Colors.blue
+                  : Colors.white;
+              lineColor = widget.searchFocusColorWhite == false
+                  ? Colors.white
+                  : Colors.grey;
             });
           } else {
             setState(() {
@@ -81,10 +88,18 @@ class _SearchInputState extends State<SearchInput> {
           child: TextField(
             controller: widget.controller,
             focusNode: widget.focusNode,
-            style: TextStyle(color: widget.searchFocusColorWhite == false ? Colors.white : Colors.grey,fontWeight: FontWeight.w400,fontSize: 15),
+            style: TextStyle(
+                color: widget.searchFocusColorWhite == false
+                    ? Colors.white
+                    : Colors.grey,
+                fontWeight: FontWeight.w400,
+                fontSize: 15),
             decoration: InputDecoration(
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: widget.searchFocusColorWhite == false ? Colors.white : Colors.grey),
+                borderSide: BorderSide(
+                    color: widget.searchFocusColorWhite == false
+                        ? Colors.white
+                        : Colors.grey),
               ),
               focusColor: Colors.blue,
               labelText: widget.label,
@@ -96,8 +111,9 @@ class _SearchInputState extends State<SearchInput> {
       ),
     );
   }
+
   //поисковая строка в мобильном приложении
-  Widget _buildApp(BuildContext context){
+  Widget _buildApp(BuildContext context) {
     return Container(
       height: widget.height == 0 ? null : widget.height,
       decoration: BoxDecoration(
@@ -107,8 +123,7 @@ class _SearchInputState extends State<SearchInput> {
               color: arrowRightPSB.withOpacity(0.2),
               spreadRadius: 3,
               blurRadius: 4,
-              offset: const Offset(0, 5)
-          ),
+              offset: const Offset(0, 5)),
         ],
         borderRadius: const BorderRadius.all(Radius.circular(8)),
       ),
@@ -146,4 +161,3 @@ class _SearchInputState extends State<SearchInput> {
     );
   }
 }
-

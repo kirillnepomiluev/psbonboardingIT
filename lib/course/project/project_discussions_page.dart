@@ -5,16 +5,17 @@ import 'package:flutter_app_digital_finals/course/project/widgets/create_review_
 import 'package:flutter_app_digital_finals/course/project/widgets/project_discussions_box.dart';
 
 //экран отображающий обсуждения в проекте
-class ProjectDiscussionsPage extends StatelessWidget{
+class ProjectDiscussionsPage extends StatelessWidget {
   final List<Reviews>? reviews;
 
-  ProjectDiscussionsPage({
-    this.reviews
-  });
+  ProjectDiscussionsPage({this.reviews});
 
   @override
   Widget build(BuildContext context) {
-    if (reviews == null) return Container(child: Text('Пока нет ниодного отзыва'),);
+    if (reviews == null)
+      return Container(
+        child: Text('Пока нет ниодного отзыва'),
+      );
 
     return Scaffold(
       floatingActionButton: CreateReviewFloatingButton(),
@@ -28,5 +29,4 @@ class ProjectDiscussionsPage extends StatelessWidget{
           }),
     );
   }
-
 }

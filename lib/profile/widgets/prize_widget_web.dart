@@ -1,28 +1,21 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_digital_finals/home/widgets/all_widgets.dart';
 import 'package:flutter_app_digital_finals/profile/widgets/reward_widget_web.dart';
 
 class PrizeWidget extends StatefulWidget {
-
-
   PrizeWidget(this.mark);
 
   final int mark;
 
   @override
   _PrizeWidgetState createState() => _PrizeWidgetState(mark);
-
 }
 
 class _PrizeWidgetState extends State<PrizeWidget> {
-
   _PrizeWidgetState(this.mark);
 
   int mark;
-
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +23,19 @@ class _PrizeWidgetState extends State<PrizeWidget> {
   }
 
   //контенер с наградами
-  Widget boxPrizes (BuildContext context){
+  Widget boxPrizes(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 15,top: 0),
+      margin: const EdgeInsets.only(bottom: 15, top: 0),
       height: 115,
       child: Column(
         children: [
           InkWell(
             onTap: () {
-              Navigator.push(context, CupertinoPageRoute(
-                builder: (context) => RewardWidget(mark),
-              ));
+              Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (context) => RewardWidget(mark),
+                  ));
             },
             child: appTitle(title: 'Ваши награды'),
           ),
@@ -72,26 +67,38 @@ class _PrizeWidgetState extends State<PrizeWidget> {
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                               ),
-                              child: Image.asset(prizes[item]['imagePrize'],fit: BoxFit.fill,),
+                              child: Image.asset(
+                                prizes[item]['imagePrize'],
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
-                          prizes[item]['hovered'] ? Container(
-                            decoration: const BoxDecoration(
-                                color: Colors.blueAccent,
-                                shape: BoxShape.rectangle,
-                                borderRadius: BorderRadius.all(Radius.circular(3.0))
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(prizes[item]['namePrize'], style: ThemeData.light().textTheme.bodyText1,),
-                                Text(prizes[item]['textBodyPrize'], style: ThemeData.light().textTheme.headline2),
-                              ],
-                            ),
-                          ) : Container()
+                          prizes[item]['hovered']
+                              ? Container(
+                                  decoration: const BoxDecoration(
+                                      color: Colors.blueAccent,
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(3.0))),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        prizes[item]['namePrize'],
+                                        style: ThemeData.light()
+                                            .textTheme
+                                            .bodyText1,
+                                      ),
+                                      Text(prizes[item]['textBodyPrize'],
+                                          style: ThemeData.light()
+                                              .textTheme
+                                              .headline2),
+                                    ],
+                                  ),
+                                )
+                              : Container()
                         ],
-                      )
-                  ),
+                      )),
                 );
               },
             ),
@@ -134,4 +141,3 @@ List<Map<String, dynamic>> prizes = [
     'hovered': false
   },
 ];
-

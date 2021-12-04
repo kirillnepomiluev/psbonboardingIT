@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_digital_finals/themes/colors.dart';
@@ -6,8 +5,10 @@ import 'package:flutter_app_digital_finals/themes/colors.dart';
 class PrizeCard extends StatelessWidget {
   //фото приза
   final String imagePrize;
+
   //название приза
   final String namePrize;
+
   //должность контакта
   final String textBodyPrize;
 
@@ -19,7 +20,6 @@ class PrizeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return InkWell(
       onTap: () {},
       child: Column(
@@ -33,8 +33,7 @@ class PrizeCard extends StatelessWidget {
                 BoxShadow(
                     color: lightBlackTextPSB.withOpacity(0.2),
                     spreadRadius: 2,
-                    blurRadius: 2
-                ),
+                    blurRadius: 2),
               ],
             ),
             padding: const EdgeInsets.all(16),
@@ -63,18 +62,29 @@ class PrizeCard extends StatelessWidget {
   }
 
   //центральная часть с названием приза
-  Widget _nameAndPosition(){
+  Widget _nameAndPosition() {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(namePrize,style: const TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 16,color: blackTextPSB),),
+          Text(
+            namePrize,
+            style: const TextStyle(
+                fontWeight: FontWeight.w400,
+                fontFamily: 'Gilroy',
+                fontSize: 16,
+                color: blackTextPSB),
+          ),
           Text(
             textBodyPrize,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 14,color: lightBlackTextPSB),
+            style: const TextStyle(
+                fontWeight: FontWeight.w400,
+                fontFamily: 'Gilroy',
+                fontSize: 14,
+                color: lightBlackTextPSB),
           ),
         ],
       ),
@@ -82,8 +92,5 @@ class PrizeCard extends StatelessWidget {
   }
 
   //действие при нажатии на приз
-  void _onTap(BuildContext context, String anotherUserId) {
-
-  }
-
+  void _onTap(BuildContext context, String anotherUserId) {}
 }

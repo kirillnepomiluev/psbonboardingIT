@@ -34,17 +34,17 @@ List<Map<String, dynamic>> chat = [
 ];
 
 class HomePageWeb extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    PsbEmployee user = Provider.of<PsbEmployeeModelView>(context, listen: true).psbEmployee;
+    PsbEmployee user =
+        Provider.of<PsbEmployeeModelView>(context, listen: true).psbEmployee;
 
     final bool isLead = user.group == 'LEAD';
 
     return MyScaffold(
-      centerAppBar:  true,
-      bodyRight: _rightBody(islead: isLead ),
-      bodyCenter: _centerBody(context, user,isLead: isLead),
+      centerAppBar: true,
+      bodyRight: _rightBody(islead: isLead),
+      bodyCenter: _centerBody(context, user, isLead: isLead),
       bodyLeft: _leftBody(isLead),
     );
   }
@@ -52,9 +52,13 @@ class HomePageWeb extends StatelessWidget {
   Widget _leftBody(bool isLead) {
     return Column(
       children: [
-        isLead ? WebNavigationMenuForProjectManager(activeItem: NavigationItemForProjectManager.home,) : WebNavigationMenu(
-          activeItem: NavigationItem.home,
-        ),
+        isLead
+            ? WebNavigationMenuForProjectManager(
+                activeItem: NavigationItemForProjectManager.home,
+              )
+            : WebNavigationMenu(
+                activeItem: NavigationItem.home,
+              ),
         Container(
           height: 10,
         ),
@@ -68,55 +72,59 @@ class HomePageWeb extends StatelessWidget {
     return tasksList(islead: islead);
   }
 
-  Widget _centerBody(BuildContext context, PsbEmployee psbEmployee,{bool isLead = false}) {
-    return isLead ? SingleChildScrollView(
-      child: Column(
-        children: [
-          //контенер с призами
-          Image.asset('assets/analitics.png'),
-          //контейнер с курсами/проектами
-          boxCourses(context),
-          //курсы
-          ListAllCourse(),
-        ],
-      ),
-    )  : Column(
-      children: [
-        //контенер с призами
-        PrizeWidget(psbEmployee.mark),
-        //контейнер с курсами/проектами
-        boxCourses(context),
-        //курсы
-        ListAllCourse(),
-      ],
-    );
+  Widget _centerBody(BuildContext context, PsbEmployee psbEmployee,
+      {bool isLead = false}) {
+    return isLead
+        ? SingleChildScrollView(
+            child: Column(
+              children: [
+                //контенер с призами
+                Image.asset('assets/analitics.png'),
+                //контейнер с курсами/проектами
+                boxCourses(context),
+                //курсы
+                ListAllCourse(),
+              ],
+            ),
+          )
+        : Column(
+            children: [
+              //контенер с призами
+              PrizeWidget(psbEmployee.mark),
+              //контейнер с курсами/проектами
+              boxCourses(context),
+              //курсы
+              ListAllCourse(),
+            ],
+          );
   }
-
 }
 
 Widget tasksList({bool islead = false}) {
   if (FirebaseAuth.instance.currentUser == null) {
     return Container();
   } else {
-
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
       child: Column(
         children: [
           appTitle(title: 'Задачи на сегодня'),
           StreamBuilder(
-            stream:islead? store
-                .collectionGroup("tasks")
-                .where("creator", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                .orderBy("time")
-                .snapshots()
-                : store.collection("users")
-                .doc(FirebaseAuth.instance.currentUser!.uid)
-                .collection("tasks")
-                .orderBy("time").snapshots(),
+            stream: islead
+                ? store
+                    .collectionGroup("tasks")
+                    .where("creator",
+                        isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                    .orderBy("time")
+                    .snapshots()
+                : store
+                    .collection("users")
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .collection("tasks")
+                    .orderBy("time")
+                    .snapshots(),
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-
-              if(snapshot.hasError) {
+              if (snapshot.hasError) {
                 print(snapshot.error);
               }
               if (snapshot.hasData) {
@@ -127,7 +135,7 @@ Widget tasksList({bool islead = false}) {
                   itemCount: snapData.docs.length,
                   itemBuilder: (context, item) {
                     Map<String, dynamic> data =
-                    snapData.docs[item].data() as Map<String, dynamic>;
+                        snapData.docs[item].data() as Map<String, dynamic>;
 
                     int maxItem = snapData.docs.length;
 
@@ -136,7 +144,7 @@ Widget tasksList({bool islead = false}) {
                     bool nextCompleted = false;
                     if (!lastItem) {
                       nextCompleted = (snapData.docs[item + 1].data()
-                      as Map<String, dynamic>)["completed"];
+                          as Map<String, dynamic>)["completed"];
                     }
 
                     return BoxTask(
@@ -164,7 +172,6 @@ Widget tasksList({bool islead = false}) {
   }
 }
 
-
 //список контактов
 Widget listContact() {
   return ListView.builder(
@@ -185,8 +192,7 @@ Widget listContact() {
 Widget boxTasksToday() {
   if (FirebaseAuth.instance.currentUser == null) {
     return Container();
-  }
-  else {
+  } else {
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
       child: Column(
@@ -196,7 +202,8 @@ Widget boxTasksToday() {
             stream: store
                 .collection("users")
                 .doc(FirebaseAuth.instance.currentUser!.uid ?? "")
-                .collection("tasks").orderBy("time")
+                .collection("tasks")
+                .orderBy("time")
                 .snapshots(),
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               if (snapshot.hasData) {
@@ -207,7 +214,7 @@ Widget boxTasksToday() {
                   itemCount: snapData.docs.length,
                   itemBuilder: (context, item) {
                     Map<String, dynamic> data =
-                    snapData.docs[item].data() as Map<String, dynamic>;
+                        snapData.docs[item].data() as Map<String, dynamic>;
 
                     int maxItem = snapData.docs.length;
 
@@ -215,12 +222,13 @@ Widget boxTasksToday() {
                     final bool firstItem = item == 0;
                     bool nextCompleted = false;
                     if (!lastItem) {
-                      nextCompleted = (snapData.docs[item + 1].data() as Map<String, dynamic>)["completed"];
+                      nextCompleted = (snapData.docs[item + 1].data()
+                          as Map<String, dynamic>)["completed"];
                     }
 
                     return BoxTask(
                       firstItem: firstItem,
-                      time:  (data['time'] as Timestamp).toDate(),
+                      time: (data['time'] as Timestamp).toDate(),
                       online: data["online"],
                       completed: data["completed"],
                       textTask: data["textTask"].toString(),
@@ -259,7 +267,6 @@ Widget boxCourses(BuildContext context) {
   );
 }
 
-
 //один курс
 Widget allCourse(BuildContext context) {
   return Row(
@@ -287,8 +294,22 @@ Widget allCourse(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Задачи по разработке',style: TextStyle(color: Colors.white,fontFamily: 'Gilroy',fontSize: 21,fontWeight: FontWeight.w400),),
-                Text('Проект в Jira',style: TextStyle(color: Colors.white,fontFamily: 'Gilroy',fontSize: 16,fontWeight: FontWeight.w400),),
+                Text(
+                  'Задачи по разработке',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Gilroy',
+                      fontSize: 21,
+                      fontWeight: FontWeight.w400),
+                ),
+                Text(
+                  'Проект в Jira',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Gilroy',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400),
+                ),
               ],
             )),
       ),
@@ -315,16 +336,25 @@ Widget allCourse(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Основная информация',style: TextStyle(color: Colors.white,fontFamily: 'Gilroy',fontSize: 21,fontWeight: FontWeight.w400),),
-                Text('Проект в Сonfluense',style: TextStyle(color: Colors.white,fontFamily: 'Gilroy',fontSize: 16,fontWeight: FontWeight.w400),),
+                Text(
+                  'Основная информация',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Gilroy',
+                      fontSize: 21,
+                      fontWeight: FontWeight.w400),
+                ),
+                Text(
+                  'Проект в Сonfluense',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Gilroy',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400),
+                ),
               ],
             )),
       ),
     ],
   );
 }
-
-
-
-
-
