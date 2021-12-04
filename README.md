@@ -16,7 +16,7 @@
 Для запуска можно использовать эмулятор, который поставляется с Android Studio,
 или подключить телефон или планшет к компьютеру.
 
-Андроид APK [доступен здесь](https://drive.google.com/drive/folders/11Kys3JewOHvcHIz3CKY7Hdv4XnOo9Y7j)
+Андроид APK [доступен здесь](https://drive.google.com/file/d/1qjjpFehJHEy0iGwZVx0KY4GI1A2FHJOl/view?usp=sharing)
 
 ## iOS
 
