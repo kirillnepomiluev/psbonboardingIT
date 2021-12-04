@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_digital_finals/auth/model/psb_employee.dart';
 import 'package:flutter_app_digital_finals/employees/web_employee_one_page.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_app_digital_finals/home/widgets/app_bar.dart';
 import 'package:flutter_app_digital_finals/home/widgets/box_task.dart';
 import 'package:flutter_app_digital_finals/home/widgets_web/web_header_green_orange_box.dart';
 import 'package:flutter_app_digital_finals/home/widgets_web/web_navigation_menu.dart';
+import 'package:flutter_app_digital_finals/tasksManager/task_manage.dart';
 import 'package:flutter_app_digital_finals/themes/colors.dart';
 import 'package:flutter_app_digital_finals/widgets/app_bottom_navigation_bar.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -53,7 +55,7 @@ class WebEmployeesPageState extends State<WebEmployeesPage>{
     //общий скафолд
     final child = SliverChildBuilderDelegate(
           (BuildContext context, int index) {
-        return _bodyLead();
+        return _bodyLeadApp();
       },
       childCount: 1,
     );
@@ -61,27 +63,34 @@ class WebEmployeesPageState extends State<WebEmployeesPage>{
     return CustomAppBar(sliverChildBuilderDelegate: child,controllerSearch: searchController,psbEmployee: user,);
   }
 
-  Widget _bodyLead(){
+  Widget _bodyLeadApp(){
 
-    return Column(
-      children: [
-        //контенер красным и оранжевым контейнером
-        GreenOrangeHeaderWeb(employeeCount: _emps.length,),
-        Container(height: 8,),
-        ListView.builder(
-            shrinkWrap: true,
-            itemCount: _emps.length,
-            itemBuilder: (ctx, item){
-              return BoxEmployee(
-                nameContact: _emps.elementAt(item).name,
-                positionContact:  _emps.elementAt(item).position,
-                percent: '0.5',
-                intStar: 4,
-                id:  _emps.elementAt(item).id,
-                psbEmployee:  _emps.elementAt(item),
-              );
-            })
-      ],
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 15),
+      child: Column(
+        children: [
+          //контенер красным и оранжевым контейнером
+          GreenOrangeHeaderWeb(employeeCount: _emps.length,),
+          Container(height: 8,),
+          ListView.builder(
+              shrinkWrap: true,
+              itemCount: _emps.length,
+              itemBuilder: (ctx, item){
+                int maxItem = _emps!.length;
+
+                final bool lastItem = item == maxItem - 1;
+                return BoxEmployee(
+                  nameContact: _emps.elementAt(item).name,
+                  positionContact:  _emps.elementAt(item).position,
+                  imageContact: lastItem ? 'assets/mentor2.png' : 'assets/mentor1.png',
+                  percent: lastItem ? '0.46' : '0.76',
+                  intStar: 4,
+                  id:  _emps.elementAt(item).id,
+                  psbEmployee:  _emps.elementAt(item),
+                );
+              })
+        ],
+      ),
     );;
   }
 
@@ -273,7 +282,7 @@ class BoxEmployee extends StatelessWidget{
                     children: [
                       // _tegTaskOrange(psbEmployee),
                       Container(height: 10,),
-                      _tegTaskGreen(),
+                      _tegTaskGreen(context),
                     ],
                   ),
                 ],
@@ -295,23 +304,48 @@ class BoxEmployee extends StatelessWidget{
         borderRadius: BorderRadius.circular(5),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 2),
-      child: Text(countTask.toString() + ' задачи',style: TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 13,color: Colors.white),),
+      child: Text(countTask.toString() + ' задачи',style: const TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 13,color: Colors.white),),
     );
   }
 
   //тег с обавлением задач для сотрудника
-  Widget _tegTaskGreen(){
-    return Container(
+  Widget _tegTaskGreen(BuildContext context){
+    return kIsWeb ? Container(
       decoration: BoxDecoration(
         color: greenPSB,
         borderRadius: BorderRadius.circular(5),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: kIsWeb ? 5 : 10,vertical: kIsWeb ?  2 : 10),
       child: Row(
         children: [
           Icon(Icons.add,color: Colors.white,size: 8,),
           const Text(' добавить',style: TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 13,color: Colors.white),),
         ],
+      ),
+    ) : InkWell(
+      onTap: (){
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return Dialog(
+              insetPadding: const EdgeInsets.symmetric(horizontal: 15,vertical: 100),
+              child: TaskManageWidget(employeeID: psbEmployee.id,),
+            );
+          },
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: greenPSB,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: kIsWeb ? 5 : 10,vertical: kIsWeb ?  2 : 10),
+        child: Row(
+          children: [
+            Icon(Icons.add,color: Colors.white,size: 8,),
+            const Text(' добавить',style: TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 13,color: Colors.white),),
+          ],
+        ),
       ),
     );
   }

@@ -124,7 +124,7 @@ class HomePage extends StatelessWidget{
       child: Column(
         children: [
           Image.asset('assets/analitics.png'),
-          tasksList(islead: false),
+          tasksList(islead: true),
         ],
       ),
     );

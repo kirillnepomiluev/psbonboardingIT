@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_digital_finals/themes/custom_theme.dart';
 import 'package:flutter_app_digital_finals/themes/themes.dart';
@@ -75,7 +76,10 @@ class _MyAppState extends State<MyApp> {
 
     }
     initialRout ==  isAuth ? router.RouteNames.home : router.RouteNames.loginScreen;
-    FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+    if(kIsWeb) { FirebaseAuth.instance.setPersistence(Persistence.LOCAL); }
+
+
+
     super.initState();
   }
 

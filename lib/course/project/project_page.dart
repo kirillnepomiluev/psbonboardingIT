@@ -50,17 +50,15 @@ class ProjectPage extends StatelessWidget {
     //все кроме верхнего имаджа
     final body = DefaultTabController(
       length: 3,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(height: 10,),
-            Text(course.nameSection,style: const TextStyle(fontWeight: FontWeight.w500,color: blackTextPSB,fontFamily: 'Gilroy',fontSize: 24),),
-            _stringCurator(),
-            _tapBar(),
-            Expanded(child: tapBarView),
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(height: 10,),
+          Text(course.nameSection,style: const TextStyle(fontWeight: FontWeight.w500,color: blackTextPSB,fontFamily: 'Gilroy',fontSize: 24),),
+          _stringCurator(),
+          _tapBar(),
+          Expanded(child: tapBarView),
+        ],
       ),
     );
 

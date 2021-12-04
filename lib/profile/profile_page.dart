@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_digital_finals/auth/model/psb_employee.dart';
 import 'package:flutter_app_digital_finals/my_scaffold.dart';
 import 'package:flutter_app_digital_finals/profile/widgets/prize_profile_box.dart';
 import 'package:flutter_app_digital_finals/themes/colors.dart';
 import 'package:flutter_app_digital_finals/widgets/app_bottom_navigation_bar.dart';
 import 'package:flutter_app_digital_finals/widgets/buttons.dart';
+import 'package:provider/provider.dart';
 
 List<Map<String, dynamic>> prizes = [
   {
@@ -41,20 +43,21 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MyScaffold(body: _body(context), bottomNavigationActiveItem: AppBottomNavigationItem.profile);
+    PsbEmployee user = Provider.of<PsbEmployeeModelView>(context, listen: true).psbEmployee;
+    return MyScaffold(body: _body(context,user), bottomNavigationActiveItem: AppBottomNavigationItem.profile);
   }
 
-  Widget _body(BuildContext context){
+  Widget _body(BuildContext context,PsbEmployee user){
     return Column(
       children: [
-        _appbar(),
+        _appbar(user),
         Expanded(child: _bodyBottom()),
       ],
     );
   }
 
   //апп бар
-  Widget _appbar() {
+  Widget _appbar(PsbEmployee user) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       decoration: BoxDecoration(
@@ -76,8 +79,8 @@ class _ProfilePageState extends State<ProfilePage> {
           //строчка с фото
           _rowPhoto(),
           Container(height: 20,),
-          Text(widget.name!,style: const TextStyle(fontWeight: FontWeight.w500,fontFamily: 'Gilroy',fontSize: 24,color: blackTextPSB),),
-          Text(widget.position!,style: const TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 14,color: lightBlackTextPSB),),
+          Text(user.name,style: const TextStyle(fontWeight: FontWeight.w500,fontFamily: 'Gilroy',fontSize: 24,color: blackTextPSB),),
+          Text(user.position,style: const TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Gilroy',fontSize: 14,color: lightBlackTextPSB),),
           Container(height: 20,),
           //строчка со статистикой
           _rowStatistics(),
@@ -96,7 +99,7 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.arrow_back_ios_rounded,color: blackTextPSB,size: 23,)),
         const Spacer(),
-        SizedBox(width: 100,height: 100,child: Image.asset('assets/imageMyContactPhoto.png',fit: BoxFit.fill,)),
+        SizedBox(width: 100,height: 100,child: Image.asset('assets/mentor1.png',fit: BoxFit.fill,)),
         const Spacer(),
         IconButton(onPressed: () async {
           await FirebaseAuth.instance.signOut();

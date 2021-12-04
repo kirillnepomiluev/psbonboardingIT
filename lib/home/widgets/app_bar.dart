@@ -1,9 +1,12 @@
 import 'package:extended_sliver/extended_sliver.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_digital_finals/auth/model/psb_employee.dart';
 import 'package:flutter_app_digital_finals/home/widgets/search_widget.dart';
 import 'package:flutter_app_digital_finals/themes/colors.dart';
+
+import '../../router.dart';
 
 class CustomAppBar extends StatelessWidget{
   //высота аппбара
@@ -68,7 +71,7 @@ class CustomAppBar extends StatelessWidget{
               }
             },
             title: const Text(
-              'ExtendedSliverAppbar',
+              'Промсвязьбанк',
               style: TextStyle(color: Colors.black),
             ),
             leading: const BackButton(
@@ -97,28 +100,34 @@ class CustomAppBar extends StatelessWidget{
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Привет, ' + psbEmployee.name,style: TextStyle(color: Colors.black,fontWeight: FontWeight.w700,fontFamily: 'Gilroy',fontSize: 22),),
-                        IconButton(onPressed: (){}, icon: const Icon(Icons.notifications_none,size: 23,color: Color(0xFF84848E),))
+                        Text('Привет, ' + psbEmployee.name,style: const TextStyle(color: Colors.black,fontWeight: FontWeight.w700,fontFamily: 'Gilroy',fontSize: 22),),
+                        IconButton(onPressed: (){}, icon: const Icon(Icons.notifications_none,size: 23,color: Color(0xFF84848E),)),
+                        IconButton(onPressed: (){ FirebaseAuth.instance.signOut(); Navigator.pushNamed(context, RouteNames.loginScreen); }, icon: const Icon(Icons.logout,size: 23,color: Color(0xFF84848E),)),
                       ],
                     ),
-                    const Text('ПСБ рад видеть Вас в команде',
-                        style: TextStyle(
+                    Text(psbEmployee.group == 'LEAD' ? 'Наставник' : 'ПСБ рад видеть Вас в команде',
+                        style: const TextStyle(
                             color: lightBlackTextPSB,
                             fontWeight: FontWeight.w400,
                             fontFamily: 'Gilroy',
                             fontSize: 14
                         )),
+                    SizedBox(height: 8,),
+                    psbEmployee.group == 'LEAD' ? Container() : Text(psbEmployee.group == 'LEAD' ? '' : 'У вас ${psbEmployee.mark} баллов',
+                        style: const TextStyle(
+                            color: lightBlackTextPSB,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Gilroy',
+                            fontSize: 16
+                        )),
                     Container(
+                      height: 60,
                       margin: const EdgeInsets.only(top: 15,bottom: 20),
-                      child: SearchInput(controller: controllerSearch,label: 'Вызвать помощника',),
+                      child: SearchInput(controller: controllerSearch,label: 'Поиск',),
                     ),
                   ],
                 ),
               ),
-            ),
-            actions: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: SearchInput(controller: controllerSearch,label: 'Вызвать помощника',),
             ),
           ),
           //pinned box
