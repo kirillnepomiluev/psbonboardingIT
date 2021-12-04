@@ -20,7 +20,7 @@ class PsbEmployee  {
       name: map['name'].toString(),
       group: map['group'].toString(), //!!!!
       position:  map['position'].toString(),
-      mark: map['marks']?? 0
+      mark: map['marks'].floor() ?? 0
     );
   }
 
